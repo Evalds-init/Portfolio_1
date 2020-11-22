@@ -1,0 +1,93 @@
+.custom-item-card-container {
+  max-height: 20rem;
+  width: 80%;
+  flex: 2 3 20em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  &.basket {
+  }
+}
+
+.custom-item-card-link {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+
+  border-radius: 0 0 2px 2px;
+
+  a:not(.btn):not(.btn-large):not(.btn-floating) {
+    color: rgb(77, 124, 77);
+    margin-right: $card-padding;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+
+    &:hover {
+      color: rgb(20, 78, 20);
+    }
+  }
+  &.basket {
+  }
+}
+
+.custom-item-card-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  width: 100%;
+  overflow: hidden;
+  &.basket {
+  }
+}
+.card-panel {
+  transition: box-shadow 0.25s;
+  padding: $card-padding;
+  margin: $element-top-margin 0 $element-bottom-margin 0;
+  border-radius: 2px;
+  @extend .z-depth-1;
+  background-color: $card-bg-color;
+  &__basket {
+  }
+}
+
+.card {
+  margin: $element-top-margin 0 $element-bottom-margin 0;
+  background-color: $card-bg-color;
+  transition: box-shadow 0.25s;
+  border-radius: 2px;
+  @extend .z-depth-1;
+
+  // Horizontal Cards
+  &.horizontal-custom-item-card {
+    display: flex;
+    background-color: rgba(235, 235, 235, 0.842);
+    &.basket {
+    }
+
+    .card-image-item-card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 2 1 20em;
+      max-height: 20rem;
+      max-width: 25%;
+      min-width: 10rem;
+      padding: 15px;
+      &.basket {
+      }
+
+      .img-custom-item-card {
+        border-radius: 2px 0 0 2px;
+        width: 100%;
+        height: 100%;
+
+        margin-left: 10%;
+        &.basket {
+        }
+      }
+    }
+  }
+}
