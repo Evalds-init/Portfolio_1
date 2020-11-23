@@ -3,10 +3,9 @@ import React from 'react';
 function Pagination() {
   let url = '';
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col m6 push-m6">
-          <ul className="pagination">
+   
+        <div className="col m5 offset-m6 s12 l5 offset-l5">
+          <ul className="pagination pagination_custom">
             <li className="waves-effect">
               <a href={url}>
                 <i className="material-icons">chevron_left</i>
@@ -34,8 +33,7 @@ function Pagination() {
             </li>
           </ul>
         </div>
-      </div>
-    </div>
+ 
   );
 }
 

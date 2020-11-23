@@ -3,12 +3,12 @@ import M from 'materialize-css';
 import AlertContext from '../../context/alert/alertContext';
 import ProductContext from '../../context/products/productContext';
 import { useHistory } from 'react-router-dom';
-
+import { Redirect } from 'react-router-dom';
 function AddMerchandise() {
   let history = useHistory();
   const alertContext = useContext(AlertContext);
   const productContext = useContext(ProductContext);
-  const { createProduct, product, loading } = productContext;
+  const { createProduct, product, error, loading } = productContext;
   const { setAlert } = alertContext;
   useEffect(() => {
     const elem = document.getElementById('textarea2');
@@ -41,8 +41,7 @@ function AddMerchandise() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const parsedPrice = parseInt(price, 10);
-    const parsedQuantity = parseInt(quantity, 10);
+
     if (
       name === '' ||
       price === '' ||
@@ -63,13 +62,14 @@ function AddMerchandise() {
       );
       createProduct({
         name,
-        price: parsedPrice,
-        quantity: parsedQuantity,
+        price,
+        quantity,
         category,
         description,
       });
     }
   };
+
   return (
     <div className="row">
       <form className="col s12 m12 l12 mt-4">

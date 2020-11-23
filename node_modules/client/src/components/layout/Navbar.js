@@ -9,7 +9,6 @@ function Navbar() {
   const productContext = useContext(ProductContext);
   const { getProducts } = productContext;
   useEffect(() => {
-    getProducts();
     persistUser();
   }, []);
   useEffect(() => {

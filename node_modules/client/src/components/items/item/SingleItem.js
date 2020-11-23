@@ -1,12 +1,14 @@
-import React, { Fragment, useEffect, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Fragment, useEffect, useContext } from 'react';
 import Search from '../../selector/Search';
 import ProductContext from '../../../context/products/productContext';
 import M from 'materialize-css';
 import ItemCard from './ItemCard';
+import { useHistory } from 'react-router-dom';
+import Preloader from '../../preloader/Preloader';
 function SingleItem({ match }) {
+  let history = useHistory();
   const productContext = useContext(ProductContext);
-  const { getProduct, product, removeProduct } = productContext;
+  const { getProduct, product, removeProduct, loading } = productContext;
   let url = '#one!';
   useEffect(() => {
     const options = { numVisible: 5 };
@@ -14,55 +16,46 @@ function SingleItem({ match }) {
     M.Carousel.init(elems, options);
   }, []);
   useEffect(() => {
-    getProduct(match.params.id);
-    return () => {
-      removeProduct();
-    };
+    if (product.length === 0) {
+      history.push('/');
+    }
   }, []);
-
 
   return (
     <Fragment>
       {' '}
-      <div className="container">
-        <Search />
-        <div className="row">
-          <div className="col m12 s12 l12">
-            <div className="carousel">
-              <a
-                className="carousel-item"
-                href={url}
-                onClick={(e) => e.preventDefault}
-              >
-                <img src={product?.photo[0]} />
-              </a>
-              <a
-                className="carousel-item"
-                href={url}
-                onClick={(e) => e.preventDefault}
-              >
-                <img src={product?.photo[1]} />
-              </a>
-              <a
-                className="carousel-item"
-                href={url}
-                onClick={(e) => e.preventDefault}
-              >
-                <img src={product?.photo[2]} />
-              </a>
-
-              {!product?.photo && (
-                <a className="carousel-item" href={url}>
-                  <img
-                    src="https://1080motion.com/wp-content/uploads/2018/06/NoImageFound.jpg.png"
-                    alt="Product"
-                  />
-                </a>
-              )}
+      {loading ? (
+        <Preloader />
+      ) : (
+        <div className="container">
+          <Search />
+          <div className="row">
+            <div className="col m12 s12 l12">
+              <div className="carousel">
+                {product ? (
+                  product.photo.map((item, index) => (
+                    <a
+                      className="carousel-item"
+                      href={url}
+                      onClick={(e) => e.preventDefault}
+                      key={index}
+                    >
+                      <img src={item} />
+                    </a>
+                  ))
+                ) : (
+                  <a className="carousel-item" href={url}>
+                    <img
+                      src="https://1080motion.com/wp-content/uploads/2018/06/NoImageFound.jpg.png"
+                      alt="Product"
+                    />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
       <ItemCard itemId={match.params.id} />
     </Fragment>
   );

@@ -62,7 +62,7 @@ exports.deleteUser = asyncResolver(async (req, res, next) => {
 //@access Private/Admin
 
 exports.createProduct = asyncResolver(async (req, res, next) => {
-  console.log(req.files);
+  console.log(req.body);
   const product = await Product.create(req.body);
   res.status(201).json({ success: true, data: product });
 });

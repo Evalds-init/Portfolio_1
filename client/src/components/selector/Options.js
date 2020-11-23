@@ -21,8 +21,8 @@ function Options() {
   };
 
   return (
-    <div className="col m2 s3 l2 mt-3 hide-on-small-and-down">
-      <div className="ml-5">
+    <div className="col m3 l2 mt-3 hide-on-small-only">
+      <div className="options-menu">
         <form action="#" className="mt-2">
           <p className="mb-1">
             <label>

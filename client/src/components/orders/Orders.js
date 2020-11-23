@@ -28,8 +28,8 @@ function Orders() {
             </thead>
 
             <tbody>
-              {items.map((item) => (
-                <SingleOrder item={item} />
+              {items.map((item, index) => (
+                <SingleOrder item={item} key={index} />
               ))}
             </tbody>
           </table>

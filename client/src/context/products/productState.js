@@ -24,8 +24,8 @@ const ProductState = (props) => {
     searchResults: [],
     ratingFilter: [],
     categoryFilter: [],
-    product: null,
-    loading: false,
+    product: [],
+    loading: true,
     error: null,
   };
 
@@ -38,7 +38,6 @@ const ProductState = (props) => {
         'Content-Type': 'application/json',
       },
     };
-    console.log(formData);
     try {
       const res = await axios.post(
         '/api/v1/admin/products/create',
@@ -47,6 +46,7 @@ const ProductState = (props) => {
       );
 
       dispatch({ type: CREATE_PRODUCT, payload: res.data.data });
+      console.log(res.data);
     } catch (error) {
       console.log(error);
       // dispatch({ type: UPDATE_DETAILS_FAIL, payload: error.response.data });
@@ -59,7 +59,7 @@ const ProductState = (props) => {
         'Content-Type': 'multipart/form-data',
       },
     };
-    console.log(formData, id);
+
     try {
       const res = await axios.post(
         `/api/v1/admin/products/${id}/addimages`,
@@ -128,6 +128,7 @@ const ProductState = (props) => {
 
   //Get single product
   const getProduct = async (id) => {
+    console.log(id);
     dispatch({ type: GET_PRODUCT, payload: id });
   };
   //Remove product from state

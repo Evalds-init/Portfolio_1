@@ -17,8 +17,6 @@ export default (state, action) => {
     case CREATE_PRODUCT:
       return {
         ...state,
-        loading: false,
-        error: null,
         product: action.payload,
       };
     case GET_PRODUCTS:
@@ -39,8 +37,7 @@ export default (state, action) => {
     case REMOVE_PRODUCT:
       return {
         ...state,
-        product: null,
-        loading: true,
+        product: [],
       };
     case PRODUCTS_FAIL:
       return { ...state, products: [], error: action.payload, loading: false };

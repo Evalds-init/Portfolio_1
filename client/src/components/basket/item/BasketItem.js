@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import BasketContext from '../../../context/basket/basketContext';
-import ItemDropdown from './ItemDropdown';
+import QuanititySelector from './QuantitySelector';
 function BasketItem({
   basket: { name, description, quantity, _id, sold, price, photo },
 }) {
@@ -42,7 +42,7 @@ function BasketItem({
                 </div>
                 <div>
                   {' '}
-                  <ItemDropdown />
+                  <QuanititySelector />
                 </div>
               </div>
             </div>

@@ -98,7 +98,6 @@ const AuthState = (props) => {
 
   //Clear errors
 
-
   return (
     <AuthContext.Provider
       value={{
@@ -111,7 +110,6 @@ const AuthState = (props) => {
         updateDetails,
         persistUser,
         role: state.role,
-        
       }}
     >
       {props.children}

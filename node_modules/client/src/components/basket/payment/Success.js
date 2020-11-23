@@ -6,16 +6,6 @@ const Success = () => {
   const location = useLocation();
   const sessionId = location.search.replace('?session_id=', '');
 
-  useEffect(() => {
-    async function fetchSession() {
-      setSession(
-        await fetch('/checkout-session?sessionId=' + sessionId).then((res) =>
-          res.json()
-        )
-      );
-    }
-    fetchSession();
-  }, [sessionId]);
 
   return (
     <div className="row">

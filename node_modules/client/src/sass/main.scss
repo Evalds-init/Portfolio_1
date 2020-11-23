@@ -41,12 +41,13 @@
 @import 'components/timepicker';
 
 //Custom files
-@import 'base';
+@import 'custom/base';
 @import 'custom/spacing';
 @import 'custom/search';
 @import 'custom/alerts';
 @import 'custom/itemCard';
-@import 'custom/itemView';
+@import 'custom/singleItemView';
 @import 'custom/basketCard';
-@import 'components';
-@import 'custom/paymentForm';
+@import 'custom/navigation';
+@import 'custom/customColors';
+@import 'custom/bassketIncrement'

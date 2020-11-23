@@ -1,25 +1,33 @@
 import React, { useState, useContext } from 'react';
 import ProductContext from '../../context/products/productContext';
 import AlertContext from '../../context/alert/alertContext';
+import { useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const formData = new FormData();
 function AddImages({ id }) {
+  let history = useHistory();
   const alertContext = useContext(AlertContext);
   const { setAlert } = alertContext;
   const productContext = useContext(ProductContext);
-  const { addImages } = productContext;
+  const { addImages, getProducts, error, products } = productContext;
   const imageUpdate = (event) => {
     formData.append('images', event.target.files[0]);
   };
   const onSubmit = (e) => {
     e.preventDefault();
     addImages(formData, id);
-    setAlert(
-      'Image successfully added',
-      'green',
-      'col s10 offset-s1 m10 offset-m1 l10 offset-l1'
-    );
+    if (!error) {
+      setAlert(
+        'Image successfully added',
+        'green',
+        'col s10 offset-s1 m10 offset-m1 l10 offset-l1'
+      );
+      getProducts();
+      history.push('/');
+    }
   };
+
   return (
     <div className="container">
       <div className="row">
