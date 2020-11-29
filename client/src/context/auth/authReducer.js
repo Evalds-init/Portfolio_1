@@ -9,7 +9,6 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
-
 } from '../types';
 
 export default (state, action) => {
@@ -36,6 +35,7 @@ export default (state, action) => {
         isAuthenticated: true,
         loading: false,
         user: action.payload,
+
         error: null,
       };
     case LOGIN_SUCCESS:
@@ -44,7 +44,6 @@ export default (state, action) => {
         isAuthenticated: true,
         loading: false,
         user: action.payload,
-        role: action.payload.role,
         error: null,
       };
     case REGISTER_FAIL:
@@ -65,6 +64,6 @@ export default (state, action) => {
       };
 
     default:
-      return state;
+      return { ...state };
   }
 };

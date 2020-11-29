@@ -132,7 +132,7 @@ const ProductState = (props) => {
     dispatch({ type: GET_PRODUCT, payload: id });
   };
   //Remove product from state
-  const removeProduct = async (id) => {
+  const removeProduct = async () => {
     dispatch({ type: REMOVE_PRODUCT });
   };
   //rate product

@@ -2,6 +2,7 @@
 
 html {
   box-sizing: border-box;
+  font-size: 62.5%;
 }
 *,
 *:before,
@@ -10,9 +11,11 @@ html {
 }
 
 body {
-  // display: flex;
-  // min-height: 100vh;
-  // flex-direction: column;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+   font-family: 'Lato', sans-serif;
+  font-weight: 400;
 }
 
 main {

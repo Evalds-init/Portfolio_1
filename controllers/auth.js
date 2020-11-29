@@ -1,6 +1,7 @@
 const ErrorResponse = require('../utils/errorResponse');
 const asyncResolver = require('../middleware/asyncResolver');
 const User = require('../models/User');
+const Basket = require('../models/Basket');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 
@@ -11,6 +12,11 @@ const crypto = require('crypto');
 exports.register = asyncResolver(async (req, res, next) => {
   const { name, email, password, role } = req.body;
   const user = await User.create({ name, email, password, role });
+  let basket = new Basket();
+  user.basketId = basket._id;
+  basket.user = user.id;
+  await user.save();
+  await basket.save();
   //Create JWT token and send it in cookies
   sendTokenInCookie(user, 200, res);
 });

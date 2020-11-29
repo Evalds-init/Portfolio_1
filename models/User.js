@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { ObjectId } = mongoose.Schema;
+const { ObjectId } = mongoose.SchemaTypes;
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -21,12 +21,6 @@ const UserSchema = new mongoose.Schema({
       'Please add a valid email',
     ],
   },
-  basket: [
-    {
-      type: ObjectId,
-      ref: 'Product',
-    },
-  ],
   role: {
     type: String,
     enum: ['user', 'merchant', 'admin'],
@@ -38,6 +32,14 @@ const UserSchema = new mongoose.Schema({
   history: {
     type: [String],
     default: [],
+  },
+  basket: {
+    type: [{}],
+    default: [],
+  },
+  basketId: {
+    type: ObjectId,
+    ref: 'Basket',
   },
   cards: {
     type: [{}],

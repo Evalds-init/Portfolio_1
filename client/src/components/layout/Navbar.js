@@ -1,13 +1,11 @@
 import React, { useContext, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
-import ProductContext from '../../context/products/productContext';
 import M from 'materialize-css';
 function Navbar() {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user, persistUser } = authContext;
-  const productContext = useContext(ProductContext);
-  const { getProducts } = productContext;
+
   useEffect(() => {
     persistUser();
   }, []);
@@ -54,7 +52,7 @@ function Navbar() {
 
   return (
     <Fragment>
-      <nav className='navigation'>
+      <nav className="navigation">
         <div className="nav-wrapper">
           <Link to="/" className="brand-logo">
             React<i className="fas fa-box-open hide-on-small-and-down ml-1"></i>

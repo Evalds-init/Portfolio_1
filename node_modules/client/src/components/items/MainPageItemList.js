@@ -8,41 +8,47 @@ function MainPageItemList({ item: { photo, name, _id, description, price } }) {
     getProduct(_id);
   };
   return (
-    <div className="mt-3">
-      <div className="card horizontal-custom-item-card">
-        <div className="card-image-item-card">
-          <img src={photo[0]} className="img-custom-item-card" />
-        </div>{' '}
-        <div className="container custom-item-card-container">
-          <div className="container">
-            {' '}
-            <div className="row">
-              <div className="col m12 s12 l12 mt-1">
-                <h5 className="header center-align">{name}</h5>
-                <p className="custom-item-card-ellipsis">{description}</p>
-              </div>
-            </div>
-          </div>
-          <div className="container">
-            <div className="row">
-              <div className="col m12 s12 l12">
-                <div className="custom-item-card-link">
-                  <div>
-                    {' '}
-                    <Link to={'#reviews'} className="hide-on-small-only">
-                      Reviews
-                    </Link>
-                  </div>{' '}
-                  <div>
-                    {' '}
-                    <Link to={`/item/${_id}`} onClick={onClick}>
-                      More
-                    </Link>
-                  </div>
-                  <div>
-                    <p className="main-item-price">Price: £{price}</p>
+    <div className="row">
+      <div className="col s12 m12 l12 section">
+        <div className="horizontal-custom-item-card  hoverable">
+          <div className="card-image-item-card">
+            <img src={photo[0]} className="img-custom-item-card" />
+          </div>{' '}
+          <div className="row">
+            <div className="col m12 s12 l12">
+              {' '}
+              <div className="custom-item-card-container">
+                <div className="row">
+                  <div className="col m12 s12 l12">
+                    <h5 className="item-header center-align">{name}</h5>
+                    <p className="custom-item-card-ellipsis">{description}</p>
                   </div>
                 </div>
+                <div className="row">
+                  <div className="col m12 s12 l12">
+                    {' '}
+                    <div className="card-action">
+                      <div>
+                        {' '}
+                        <Link to={'#reviews'} className="hide-on-med-and-down">
+                          Reviews
+                        </Link>{' '}
+                      </div>
+                      <div>
+                        {' '}
+                        <Link to={`/item/${_id}`} onClick={onClick}>
+                          More
+                        </Link>
+                      </div>
+                      <div>
+                        {' '}
+                        <Link to={`/item/${_id}`} onClick={onClick} className='price'>
+                          Price: £{price}
+                        </Link>
+                      </div>
+                    </div>
+                  </div>{' '}
+                </div>{' '}
               </div>
             </div>
           </div>

@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
+const { ObjectId } = mongoose.SchemaTypes;
 
 const basketSchema = new mongoose.Schema({
-  buyer: {
-    type: ObjectId,
-    ref: 'User',
-    required: [true, 'Please provide a valid user id'],
+  items: {
+    type: [{ product: { type: ObjectId }, quantity: { type: Number } }],
+    default: [],
   },
-  
 });
 
 module.exports = mongoose.model('Basket', basketSchema);

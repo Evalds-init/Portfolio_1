@@ -7,15 +7,15 @@ import BasketContext from '../../../context/basket/basketContext';
 import AddImages from '../../admin/AddImages';
 import Stars from './starRating/Stars';
 import M from 'materialize-css';
-function ItemCard({ itemId }) {
+function ItemCard({ product: { _id } }) {
   const alertContext = useContext(AlertContext);
   const basketContext = useContext(BasketContext);
-  const { addToBasket } = basketContext;
+  const { basket, addToBasket } = basketContext;
   const { setAlert } = alertContext;
   const authContext = useContext(AuthContext);
   const productContext = useContext(ProductContext);
-  const { role } = authContext;
-  const { product, loading, addImages } = productContext;
+  const { user, isAuthenticated } = authContext;
+  const { product, addImages } = productContext;
 
   let url = '#one!';
 
@@ -36,17 +36,37 @@ function ItemCard({ itemId }) {
   }, []);
   const toBasket = (e) => {
     e.preventDefault();
-    setAlert(
-      'Item succesfully added to basket',
-      'green',
-      'col s8 offset-s2 m8 offset-m2 l8 offset-l2'
-    );
-    addToBasket(itemId);
+    if (basket) {
+      let currentBasket = basket.map(function (item) {
+        return item._id;
+      });
+      if (currentBasket.includes(_id)) {
+        setAlert(
+          'The item is already in your basket',
+          'red',
+          'col s8 offset-s2 m8 offset-m2 l8 offset-l2'
+        );
+      } else {
+        setAlert(
+          'Item succesfully added to basket',
+          'green',
+          'col s8 offset-s2 m8 offset-m2 l8 offset-l2'
+        );
+        addToBasket(product, 1);
+      }
+    } else {
+      setAlert(
+        'Item succesfully added to basket',
+        'green',
+        'col s8 offset-s2 m8 offset-m2 l8 offset-l2'
+      );
+      addToBasket(product, 1);
+    }
   };
 
   return (
     <Fragment>
-      {image && <AddImages id={itemId} />}
+      {image && <AddImages id={_id} />}
 
       <div className="row">
         <div className="col m12 s12 l12">
@@ -89,7 +109,7 @@ function ItemCard({ itemId }) {
                       <a href={url}>Ask the seller</a>
                     </div>
                   </div>
-                  {role === 'admin' && (
+                  {user?.role === 'admin' && isAuthenticated && (
                     <div class="fixed-action-btn admin">
                       <a class="btn-floating btn-large red">
                         <i class="large material-icons">edit</i>

@@ -21,7 +21,7 @@ function Options() {
   };
 
   return (
-    <div className="col m3 l2 mt-3 hide-on-small-only">
+    <div className="col m2 offset-m1 l2 offset-l1 hide-on-small-only">
       <div className="options-menu">
         <form action="#" className="mt-2">
           <p className="mb-1">

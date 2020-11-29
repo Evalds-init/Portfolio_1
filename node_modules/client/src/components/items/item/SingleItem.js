@@ -8,7 +8,7 @@ import Preloader from '../../preloader/Preloader';
 function SingleItem({ match }) {
   let history = useHistory();
   const productContext = useContext(ProductContext);
-  const { getProduct, product, removeProduct, loading } = productContext;
+  const { product, loading, removeProduct } = productContext;
   let url = '#one!';
   useEffect(() => {
     const options = { numVisible: 5 };
@@ -19,6 +19,11 @@ function SingleItem({ match }) {
     if (product.length === 0) {
       history.push('/');
     }
+  }, []);
+  useEffect(() => {
+    return () => {
+      removeProduct();
+    };
   }, []);
 
   return (
@@ -32,7 +37,7 @@ function SingleItem({ match }) {
           <div className="row">
             <div className="col m12 s12 l12">
               <div className="carousel">
-                {product ? (
+                {product?.photo?.[0] ? (
                   product.photo.map((item, index) => (
                     <a
                       className="carousel-item"
@@ -56,7 +61,7 @@ function SingleItem({ match }) {
           </div>
         </div>
       )}
-      <ItemCard itemId={match.params.id} />
+      <ItemCard product={product} />
     </Fragment>
   );
 }

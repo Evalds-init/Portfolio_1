@@ -1,90 +1,111 @@
-.custom-item-card-container {
-  max-height: 20rem;
-  width: 80%;
-  flex: 2 3 20em;
+// Horizontal Cards
+.horizontal-custom-item-card {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background-color: white;
-}
+  background-color: rgb(255, 255, 255);
+  max-height: 13rem;
+  font-size: 0.8rem;
+  border: 1px solid white;
+  border-radius: 3px;
 
-.custom-item-card-link {
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
-  align-items: center;
-
-  border-radius: 0 0 2px 2px;
-
-  a:not(.btn):not(.btn-large):not(.btn-floating) {
-    color: $card-link-color;
-    margin-right: $card-padding;
-    transition: color 0.3s ease;
-    text-transform: uppercase;
-
-    &:hover {
-      color: $card-link-color-light;
-    }
-  }
-}
-
-.custom-item-card-ellipsis {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  text-align: center;
-  -webkit-box-orient: vertical;
-  width: 100%;
-  overflow: hidden;
-}
-.card-panel {
-  transition: box-shadow 0.25s;
-  padding: $card-padding;
-  margin: $element-top-margin 0 $element-bottom-margin 0;
-  border-radius: 2px;
-  @extend .z-depth-1;
-  background-color: $card-bg-color;
-}
-
-.card {
-  margin: $element-top-margin 0 $element-bottom-margin 0;
-  background-color: $card-bg-color;
-  transition: box-shadow 0.25s;
-  border-radius: 2px;
-  @extend .z-depth-1;
-
-  // Horizontal Cards
-  &.horizontal-custom-item-card {
+  .card-image-item-card {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 13rem;
+    max-width: 25%;
+    min-width: 10rem;
+    padding: 15px;
     background-color: rgb(255, 255, 255);
 
-    .card-image-item-card {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex: 2 1 20em;
-      max-height: 20rem;
-      max-width: 25%;
-      min-width: 10rem;
-      padding: 15px;
-      background-color: rgb(255, 255, 255);
+    .img-custom-item-card {
+      border-radius: 2px 0 0 2px;
+      width: 100%;
+      height: 100%;
 
-      .img-custom-item-card {
-        border-radius: 2px 0 0 2px;
-        width: 100%;
-        height: 100%;
+      margin-left: 10%;
+    }
+  }
+  & .custom-item-card-container {
+    max-height: 13rem;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    padding: 5%;
+    & .basket-header {
+      position: relative;
+      margin-top: -2rem;
+      &_text {
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+      & .basket-total-price {
+        color: rgb(76, 75, 78);
+        position: absolute;
+        font-size: 1rem;
+        bottom: -40px;
+        right: 10px;
+        font-weight: 700;
+      }
+    }
 
-        margin-left: 10%;
+    & .item-header {
+      font-size: 1.3rem;
+    }
+    & .custom-item-card-ellipsis {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      text-align: center;
+      -webkit-box-orient: vertical;
+      width: 100%;
+      overflow: hidden;
+      &.basket {
+        padding: 1rem;
+        color: rgb(56, 56, 56);
+        font-size: 1rem;
+        padding: 0 1rem;
       }
     }
   }
+  & .card-action {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-evenly;
+    &:last-child {
+      border-radius: 0 0 2px 2px;
+    }
+
+    a:not(.btn):not(.btn-large):not(.btn-floating) {
+      color: rgb(52, 175, 52);
+      margin-right: $card-padding;
+      transition: color 0.3s ease;
+      text-transform: uppercase;
+
+      &:hover {
+        color: rgb(20, 78, 20);
+      }
+    }
+
+    & .price {
+      color: black !important;
+      font-weight: 400 !important;
+    }
+  }
 }
 
-.main-item-price {
-  color: rgb(73, 73, 73);
-  font-size: 1.2rem;
-}
 .options-menu {
-  margin-left: 20%;
-}
+  font-family: sans-serif;
+  z-index: 100;
+  position: fixed;
 
+  & span {
+    font-weight: 700;
+    color: rgb(70, 70, 70);
+  }
+}

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -19,6 +18,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     enum: ['cosmetics', 'skincare', 'haircare'],
     default: 'cosmetics',
+  },
+  purchaseQuantity: {
+    type: Number,
+    default: 1,
   },
   quantity: {
     type: Number,

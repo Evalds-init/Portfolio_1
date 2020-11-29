@@ -9,7 +9,6 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
-  ADD_TO_BASKET,
 } from '../types';
 
 import React, { useReducer } from 'react';
@@ -21,7 +20,6 @@ axios.defaults.withCredentials = true;
 const AuthState = (props) => {
   const initialState = {
     isAuthenticated: null,
-    role: null,
     loading: true,
     error: null,
     user: null,
@@ -109,7 +107,6 @@ const AuthState = (props) => {
         login,
         updateDetails,
         persistUser,
-        role: state.role,
       }}
     >
       {props.children}
