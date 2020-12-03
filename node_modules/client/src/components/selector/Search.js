@@ -2,15 +2,25 @@ import React, { useRef, useEffect, useContext } from 'react';
 import ProductContext from '../../context/products/productContext';
 function Search() {
   const productContext = useContext(ProductContext);
-  const { searchProducts, searchResults, clearSearchResults } = productContext;
+  const {
+    searchProducts,
+    searchResults,
+    clearSearchResults,
+    categoryFilter,
+  } = productContext;
   const text = useRef('');
   useEffect(() => {
-    if (searchResults === null) {
+    if (searchResults.length === 0) {
       text.current.value = '';
     }
   }, []);
+  useEffect(() => {
+    if (categoryFilter.length !== 0) {
+      text.current.value = '';
+    }
+  }, [categoryFilter]);
+
   const onChange = (e) => {
-    console.log(e.target.value);
     if (text.current.value !== '') {
       searchProducts(e.target.value);
     } else {

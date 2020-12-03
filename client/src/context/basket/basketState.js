@@ -1,11 +1,14 @@
 import {
   GET_BASKET,
   DELETE_BASKET_ITEM,
-  CREATE_CHECKOUT_SESSION,
+  PROCESS_BASKET_PAYMENT,
   BASKET_ERROR,
   ADD_TO_BASKET,
   GET_BASKET_TOTAL,
   CHANGE_QUANTITY,
+  CLEAR_BASKET_STATE,
+  BASKET_PAYMENT_ERROR,
+  CLEAR_CHECKOUT_ERRORS,
 } from '../types';
 import React, { useReducer } from 'react';
 import BasketContext from './basketContext';
@@ -16,9 +19,10 @@ axios.defaults.withCredentials = true;
 const BasketState = (props) => {
   const initialState = {
     basket: null,
-    sessionId: null,
     total: 0,
     error: null,
+    cardError: null,
+    loading: true,
   };
 
   const [state, dispatch] = useReducer(basketReducer, initialState);
@@ -59,11 +63,16 @@ const BasketState = (props) => {
       dispatch({ type: BASKET_ERROR, payload: error.response.data });
     }
   };
+  //Create order record after successful transaction
+  const clearBasketState = () => {
+    dispatch({ type: CLEAR_BASKET_STATE });
+  };
   //Create stripe checkout session
-  const createCheckoutSession = async (total, basket) => {
+  const acceptPayment = async (id, total, basket) => {
     const data = {
       total,
       basket,
+      id,
     };
     const config = {
       headers: {
@@ -71,14 +80,14 @@ const BasketState = (props) => {
       },
     };
     try {
-      const res = await axios.post(
-        '/api/v1/basket/create-checkout-session',
-        data,
-        config
-      );
-      dispatch({ type: CREATE_CHECKOUT_SESSION, payload: res.data.id });
+      const res = await axios.post('/api/v1/basket/checkout', data, config);
+      dispatch({ type: PROCESS_BASKET_PAYMENT, payload: res.data.data });
     } catch (error) {
-      dispatch({ type: BASKET_ERROR, payload: error.response.data });
+      dispatch({
+        type: BASKET_PAYMENT_ERROR,
+        payload: error.response.data.error,
+      });
+      setTimeout(() => dispatch({ type: CLEAR_CHECKOUT_ERRORS }), 6000);
     }
   };
   //Add item to users' basket
@@ -105,19 +114,24 @@ const BasketState = (props) => {
       dispatch({ type: BASKET_ERROR, payload: error.response.data });
     }
   };
+
+
   return (
     <BasketContext.Provider
       value={{
         basket: state.basket,
-        sessionId: state.sessionId,
         error: state.error,
+        loading: state.loading,
         total: state.total,
+        cardError: state.cardError,
         getBasketItems,
+        clearBasketState,
         deleteBasketItem,
         getBasketTotal,
         addToBasket,
         changeItemQuantity,
-        createCheckoutSession,
+        acceptPayment,
+ 
       }}
     >
       {props.children}

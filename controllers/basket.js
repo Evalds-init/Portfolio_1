@@ -1,12 +1,11 @@
 const ErrorResponse = require('../utils/errorResponse');
 const asyncResolver = require('../middleware/asyncResolver');
-const mongoose = require('mongoose');
 const User = require('../models/User');
 const Basket = require('../models/Basket');
 const Product = require('../models/Product');
-const stripe = require('stripe')(
-  'sk_test_51HpavkGL4I6BvuCEbBomdC59t7fhP4NvjAYSdxnkRH7ceHPiDyhUAujDw4hzF5tF1o7SRn3PZy9ZPzDoNDdhxvRH00cLusVHSi'
-);
+const Stripe = require('stripe');
+const Order = require('../models/Order');
+
 //@desc add to users basket
 //@route PUT /api/v1/basket/:id/addtobasket
 //@access Private
@@ -71,35 +70,30 @@ exports.editQuantity = asyncResolver(async (req, res, next) => {
 //@desc Create Stripe Checkout Session
 //@route POST /api/v1/basket/create-checkout-session
 //@access Private
-exports.createCheckoutSession = asyncResolver(async (req, res, next) => {
-  let line_items = [];
-  let price_data = {};
-  line_items = req.body.basket.forEach((item) =>
-    line_items.push({
-      ...price_data,
+exports.createCheckoutSession = async (req, res, next) => {
+  const stripe = new Stripe(process.env.STRIPE_SECRET);
+  const { id, total, basket } = req.body;
+
+  try {
+    const response = await stripe.paymentIntents.create({
+      payment_method: id,
       currency: 'GBP',
-      name: item.name,
-      unit_amount: item.price * 100,
-    })
-  );
-  console.log(line_items);
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: [
-      {
-        price_data: {
-          currency: 'GBP',
-          product_data: {
-            name: req.body.basket[0].name,
-          },
-          unit_amount: 800,
-        },
-        quantity: req.body.basket[0].purchaseQuantity,
-      },
-    ],
-    mode: 'payment',
-    success_url: 'http://localhost:3000/checkout/success',
-    cancel_url: 'http://localhost:3000/checkout/canceled',
-  });
-  res.json({ id: session.id });
-});
+      amount: total * 100,
+      confirm: true,
+    });
+    const data = {
+      products: basket,
+      transaction_id: id,
+      amount: total,
+      address: req.user.address[0],
+      user: req.user.id,
+    };
+
+    const orders = await Order.create(data);
+    await Basket.findByIdAndUpdate(req.user.basketId, { items: [] });
+
+    res.status(200).json({ success: true, data: orders });
+  } catch (error) {
+    next(new ErrorResponse(error.message, 500));
+  }
+};

@@ -6,10 +6,10 @@ const stripePromise = loadStripe(
   'pk_test_51HpavkGL4I6BvuCEaNrjHcdxFkYUmmrPkPhfBoKXCx1ZqxlLEkcVB6nfbGfsZUazA6Ku5xw8nT6s44cH0kudf8kP004RmMfL7G'
 );
 
-const Checkout = () => {
+const Checkout = ({ toBasket = (f) => f }) => {
   return (
     <Elements stripe={stripePromise}>
-      <Form />
+      <Form toBasket={toBasket} />
     </Elements>
   );
 };

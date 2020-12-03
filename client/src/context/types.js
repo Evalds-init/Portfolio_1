@@ -14,6 +14,8 @@ export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const USER_LOADED = 'USER_LOADED ';
 export const AUTH_ERROR = 'AUTH_ERROR';
+export const CREATE_ORDER_RECORD = 'CREATE_ORDER_RECORD';
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Product actions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,10 +34,18 @@ export const GET_PRODUCTS = 'GET_PRODUCTS';
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export const ADD_TO_BASKET = 'ADD_TO_BASKET';
 export const GET_BASKET = 'GET_BASKET';
+export const CLEAR_CHECKOUT_ERRORS = 'CLEAR_CHECKOUT_ERRORS';
 export const DELETE_BASKET_ITEM = 'DELETE_BASKET_ITEM';
-export const CREATE_CHECKOUT_SESSION = 'CREATE_CHECKOUT_SESSION';
+export const BASKET_PAYMENT_ERROR = 'BASKET_PAYMENT_ERROR';
+export const PROCESS_BASKET_PAYMENT = 'PROCESS_BASKET_PAYMENT';
 export const GET_BASKET_TOTAL = 'GET_BASKET_TOTAL';
 export const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
+export const CLEAR_BASKET_STATE = 'CLEAR_BASKET_STATE';
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Orders actions
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export const GET_ORDERS = 'GET_ORDERS';
+export const GET_ORDERS_ERROR = 'GET_ORDERS_ERROR';
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Utils actions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,3 +53,4 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const BASKET_ERROR = 'BASKET_ERROR';
+export const UNIVERSAL_ERROR = 'UNIVERSAL_ERROR';

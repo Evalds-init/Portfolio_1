@@ -9,6 +9,8 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
+  CREATE_ORDER_RECORD,
+  UNIVERSAL_ERROR,
 } from '../types';
 
 export default (state, action) => {
@@ -62,8 +64,18 @@ export default (state, action) => {
         user: null,
         error: action.payload,
       };
+    case CREATE_ORDER_RECORD:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          orderNumbers: [...state.user.orderNumbers, action.payload.sessionId],
+        },
+      };
+    case UNIVERSAL_ERROR:
+      return { ...state, error: action.payload };
 
     default:
-      return { ...state };
+      return state ;
   }
 };

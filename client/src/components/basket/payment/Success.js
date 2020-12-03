@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-
+import BasketContext from '../../../context/basket/basketContext';
+import AuthContext from '../../../context/auth/authContext';
 const Success = () => {
+  const authContext = useContext(AuthContext);
+  const basketContext = useContext(BasketContext);
+  const { sessionId, total, basket, clearBasketState } = basketContext;
+  const { createOrderRecord } = authContext;
+  useEffect(() => {
+    createOrderRecord(total, basket, sessionId);
+    clearBasketState();
+  }, []);
   return (
     <div className="row">
       <div className="col s8 m6 l4 offset-s2 offset-m3 offset-l4">

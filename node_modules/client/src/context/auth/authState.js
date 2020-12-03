@@ -9,6 +9,9 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
+  CREATE_ORDER_RECORD,
+  CREATE_ORDER_RECORD_FAIL,
+  UNIVERSAL_ERROR,
 } from '../types';
 
 import React, { useReducer } from 'react';
@@ -91,6 +94,32 @@ const AuthState = (props) => {
       dispatch({ type: UPDATE_DETAILS_FAIL, payload: error.response.data });
     }
   };
+  //Create order record after successful transaction
+  const createOrderRecord = async (total, basket, sessionId) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const data = {
+      basket,
+      total,
+      sessionId,
+    };
+    try {
+      const res = await axios.post(
+        `/api/v1/users/create-order-record`,
+        data,
+        config
+      );
+      dispatch({ type: CREATE_ORDER_RECORD, payload: data });
+    } catch (error) {
+      dispatch({
+        type: UNIVERSAL_ERROR,
+        payload: error.response.data,
+      });
+    }
+  };
 
   //Logout
 
@@ -103,6 +132,7 @@ const AuthState = (props) => {
         loading: state.loading,
         user: state.user,
         error: state.error,
+        createOrderRecord,
         register,
         login,
         updateDetails,

@@ -33,10 +33,6 @@ const UserSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
-  basket: {
-    type: [{}],
-    default: [],
-  },
   basketId: {
     type: ObjectId,
     ref: 'Basket',
@@ -46,8 +42,11 @@ const UserSchema = new mongoose.Schema({
     default: [],
   },
   address: {
-    type: [{}],
+    type: [String],
     default: [],
+  },
+  orderNumbers: {
+    type: [String],
   },
   password: {
     type: String,

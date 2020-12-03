@@ -11,6 +11,6 @@ router.use(authCheck);
 router.put('/:id/addtobasket', addToBasket);
 router.get('/getitems', getItems);
 
-router.post('/create-checkout-session', createCheckoutSession);
+router.post('/checkout', createCheckoutSession);
 router.delete('/deleteitem/:id', deleteItem);
 module.exports = router;

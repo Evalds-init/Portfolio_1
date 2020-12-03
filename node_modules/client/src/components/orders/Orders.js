@@ -1,38 +1,38 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import SingleOrder from './SingleOrder';
+import OrderContext from '../../context/orders/orderContext';
+import Preloader from '../preloader/Preloader';
 function Orders() {
-  const items = [
-    {
-      name: 'Washing Machine',
-      description: 'cool item',
-      quantity: '12',
-    },
-    {
-      name: 'Bike',
-      description: 'Low Miles',
-      quantity: '11',
-    },
-  ];
+  const orderContext = useContext(OrderContext);
+  const { getOrders, orders, loading, error } = orderContext;
+
+  useEffect(() => {
+    getOrders();
+  }, []);
   return (
     <div className="container">
       <div className="row">
         <div className="col m12 s12 l12">
-          <table className="highlight centered">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Item Name</th>
-                <th>Delivery</th>
-                <th>Status</th>
-              </tr>
-            </thead>
+          {loading ? <Preloader/> : orders.length === 0 && !loading ? (
+            <p>It looks you have not placed any orders yet</p>
+          ) : (
+            <table className="highlight centered">
+              <thead>
+                <tr>
+                  <th>Order Number</th>
 
-            <tbody>
-              {items.map((item, index) => (
-                <SingleOrder item={item} key={index} />
-              ))}
-            </tbody>
-          </table>
+                  <th>Delivery</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {orders.map((order, index) => (
+                  <SingleOrder item={order} key={index} />
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

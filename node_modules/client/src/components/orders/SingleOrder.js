@@ -1,21 +1,26 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 function SingleOrder({ item }) {
-  let url = '';
   return (
     <tr>
-      <td>Jonathan</td>
-      <td>Lollipop</td>
+      <td>{item.transaction_id}</td>
+
       <td>
         {' '}
-        <a href={url} className="waves-effect waves-light btn green">
+        <Link to="/orders" className="waves-effect  btn green lighten-2">
           Track
-        </a>
+        </Link>
       </td>
       <td>
-        <a href={url} className="waves-effect waves-light btn blue">
-          Submitted
-        </a>
+        {item.status === 'Not processed' ? (
+          <button className="waves-effect btn yellow darken-3">
+            {item.status}
+          </button>
+        ) : (
+          <button className="waves-effect btn blue lighten-2">
+            {item.status}
+          </button>
+        )}
       </td>
     </tr>
   );

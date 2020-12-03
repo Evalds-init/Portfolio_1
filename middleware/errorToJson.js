@@ -18,6 +18,9 @@ const errorToJson = (err, req, res, next) => {
   if (err.name === 'TypeError') {
     const message = `Invalid Data Type`;
     error = new ErrorResponse(message, 400);
+  } else {
+    const message = `Something went wrong`;
+    error = new ErrorResponse(message, 500);
   }
 
   res.status(error.statusCode || 500).json({

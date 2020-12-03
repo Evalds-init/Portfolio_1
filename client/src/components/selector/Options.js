@@ -1,22 +1,23 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Stars from './starRating/Stars';
 import ProductContext from '../../context/products/productContext';
 function Options() {
   const productContext = useContext(ProductContext);
-  const {
-    filterByCategory,
-    clearFilters,
-    ratingFilter,
-    filterByRatings,
-    searchResults,
-  } = productContext;
+  const { filterByCategory, clearFilters, searchResults } = productContext;
+  const [check, setCheck] = useState(false);
+  useEffect(() => {
+    if (searchResults.length !== 0) {
+      setCheck(true);
+    }
+  }, [searchResults]);
 
-  useEffect(() => {}, [searchResults]);
   const onChange = (e) => {
     if (e.target.value !== 'showall') {
       filterByCategory(e.target.value);
+      setCheck(false);
     } else {
       clearFilters();
+      setCheck(true);
     }
   };
 
@@ -32,6 +33,7 @@ function Options() {
                 className="with-gap"
                 name="group1"
                 type="radio"
+                checked={check}
                 onChange={onChange}
               />{' '}
               <span>Show All</span>

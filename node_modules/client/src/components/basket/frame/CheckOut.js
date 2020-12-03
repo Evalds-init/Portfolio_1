@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import BasketItem from '../item/BasketItem';
 import Total from './Total';
 
-const CheckOut = ({ basket }) => {
+const CheckOut = ({ basket, onClick = (f) => f }) => {
   return (
     <div className="card inner-checkout">
       <div className="card-content white-text">
@@ -20,7 +20,7 @@ const CheckOut = ({ basket }) => {
             ))}
         </div>
       </div>
-      <Total />
+      <Total onClick={onClick} />
     </div>
   );
 };
