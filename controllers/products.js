@@ -55,7 +55,6 @@ exports.deleteProduct = asyncResolver(async (req, res, next) => {
 //@access Public
 
 exports.getProductsByCategory = asyncResolver(async (req, res, next) => {
-  console.log(req.params);
   const products = await Product.find({ category: req.params.category });
 
   res.status(200).json({ success: true, data: products });

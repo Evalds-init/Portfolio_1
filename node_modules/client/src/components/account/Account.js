@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import M from 'materialize-css';
 import PersonalDetails from './personalDetails/PersonalDetails';
 import PaymentCards from './PaymentCards';
-import DeliveryAddress from './DeliveryAddress';
+import DeliveryAddress from './deliveryaddress/DeliveryAddress';
 import { useHistory } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
 function Account() {
-    let history = useHistory();
-    const authContext = useContext(AuthContext);
-    const { user, isAuthenticated } = authContext;
-    useEffect(() => {
-      if (!isAuthenticated) {
-        history.push('/');
-      }
-    }, [isAuthenticated]);
+  let history = useHistory();
+  const authContext = useContext(AuthContext);
+  const { user, isAuthenticated } = authContext;
+  useEffect(() => {
+    if (!isAuthenticated) {
+      history.push('/');
+    }
+  }, [isAuthenticated]);
   useEffect(() => {
     var el = document.querySelector('.tabs');
     M.Tabs.init(el);
@@ -25,7 +25,6 @@ function Account() {
   const onClick = (e) => {
     setTab('');
     setTab(e.target.name);
-    
   };
   return (
     <div className="z-depth-1 grey lighten-3">
@@ -59,14 +58,12 @@ function Account() {
             </div>
             <div className="card-content grey lighten-4">
               {tab === 'deliveryaddress' ? (
-                <DeliveryAddress />
+                <DeliveryAddress address={user.address} />
               ) : tab === 'paymentcards' ? (
                 <PaymentCards />
               ) : (
-                <PersonalDetails  />
+                <PersonalDetails />
               )}
-
-       
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect , useContext} from 'react';
+import React, { useState, Fragment, useEffect, useContext } from 'react';
 import EditDetails from './EditDetails';
 import DisplayDetails from './DisplayDetails';
 import AuthContext from '../../../context/auth/authContext';
@@ -21,7 +21,6 @@ function PersonalDetails() {
         {!edit && (
           <button
             className="btn waves-effect waves-light light-blue"
-            type="submit"
             name="action"
             onClick={onClick}
           >

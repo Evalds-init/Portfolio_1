@@ -1,34 +1,23 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
 import AuthContext from '../../../context/auth/authContext';
 import AlertContext from '../../../context/alert/alertContext';
 
 function EditDetails() {
-  let history = useHistory();
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const { setAlert } = alertContext;
-  const { updateDetails, isAuthenticated, loading } = authContext;
-  useEffect(() => {
-    if (!isAuthenticated) {
-      history.push('/');
-    }
-  }, []);
+  const { updateDetails, isAuthenticated, user } = authContext;
 
-
-
-  const [user, setUser] = useState({
-    name: '',
-    lastName: '',
-    email: '',
-    tel: '',
+  const [updatedDetails, setUpdatedDetails] = useState({
+    name: user.name || '',
+    lastName: user.lastName || '',
+    email: user.email || '',
+    tel: user.tel || '',
   });
-  const { name, lastName, email, tel } = user;
-  let url = '';
+  const { name, lastName, email, tel } = updatedDetails;
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // handle all cases
     if (name === '' || email === '' || lastName === '') {
       setAlert(
         'Please enter your details',
@@ -37,12 +26,10 @@ function EditDetails() {
       );
     } else {
       updateDetails({ name, lastName, email, tel });
-
-      
     }
   };
   const onChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUpdatedDetails({ ...user, [e.target.name]: e.target.value });
   };
   return (
     <div className="row">
@@ -58,7 +45,9 @@ function EditDetails() {
               value={name}
               name="name"
             />
-            <label htmlFor="first_name">First Name</label>
+            <label htmlFor="first_name" className="active">
+              First Name
+            </label>
           </div>
           <div className="input-field col s6">
             <i className="material-icons prefix">account_circle</i>
@@ -70,7 +59,9 @@ function EditDetails() {
               value={lastName}
               name="lastName"
             />
-            <label htmlFor="last_name">Last Name</label>
+            <label htmlFor="last_name" className="active">
+              Last Name
+            </label>
           </div>
           <div className="input-field col s6">
             <i className="material-icons prefix">email</i>
@@ -82,7 +73,9 @@ function EditDetails() {
               value={email}
               name="email"
             />
-            <label htmlFor="email">email</label>
+            <label htmlFor="email" className="active">
+              email
+            </label>
           </div>
           <div className="input-field col s6">
             <i className="material-icons prefix">phone</i>
@@ -94,7 +87,9 @@ function EditDetails() {
               value={tel}
               name="tel"
             />
-            <label htmlFor="icon_telephone">Telephone</label>
+            <label htmlFor="icon_telephone" className="active">
+              Telephone
+            </label>
           </div>
         </div>
 

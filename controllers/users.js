@@ -15,6 +15,44 @@ exports.updateDetails = asyncResolver(async (req, res, next) => {
   res.status(200).json({ success: true, data: user });
 });
 
+//@desc update user address
+//@route PUT /api/v1/users/updateaddress
+//@access Private
+exports.updateAddress = asyncResolver(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, {
+    $pull: { address: { _id: req.body._id } },
+  });
+  await User.findByIdAndUpdate(req.user.id, {
+    $push: { address: req.body },
+  });
+
+  res.status(200).json({ success: true });
+});
+//@desc delete user address
+//@route DELETE /api/v1/users/:id/deleteaddress
+//@access Private
+exports.deleteAddress = asyncResolver(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, {
+    $pull: { address: { _id: req.params.id } },
+  });
+
+  res.status(200).json({ success: true });
+});
+//@desc add user address
+//@route POST /api/v1/users/addaddress
+//@access Private
+exports.addAddress = asyncResolver(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      $push: { address: req.body },
+    },
+    { new: true, runValidators: true }
+  );
+
+  res.status(200).json({ success: true, data: user.address });
+});
+
 //@desc update password
 //@route PUT /api/v1/users/updatepassword
 //@access Private

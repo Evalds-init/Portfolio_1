@@ -42,7 +42,16 @@ const UserSchema = new mongoose.Schema({
     default: [],
   },
   address: {
-    type: [String],
+    type: [
+      {
+        _id: { type: ObjectId, auto: true },
+        name: { type: String, unique: true },
+        line1: { type: String },
+        line2: { type: String },
+        city: { type: String },
+        postcode: { type: String },
+      },
+    ],
     default: [],
   },
   orderNumbers: {

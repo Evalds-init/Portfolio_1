@@ -2,16 +2,16 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   UPDATE_DETAILS,
-  UPDATE_DETAILS_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
-  CREATE_ORDER_RECORD,
-  CREATE_ORDER_RECORD_FAIL,
-  UNIVERSAL_ERROR,
+  USER_ERROR,
+  UPDATE_ADDRESS,
+  ADD_ADDRESS,
+  DELETE_ADDRESS,
 } from '../types';
 
 import React, { useReducer } from 'react';
@@ -74,6 +74,13 @@ const AuthState = (props) => {
       dispatch({ type: LOGIN_FAIL, payload: error.response.data });
     }
   };
+
+  //Logout
+
+  //Clear errors
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////// User detail update
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
   //Update user details
   const updateDetails = async (formData) => {
     const config = {
@@ -90,41 +97,57 @@ const AuthState = (props) => {
 
       dispatch({ type: UPDATE_DETAILS, payload: res.data.data });
     } catch (error) {
-      console.log(error);
-      dispatch({ type: UPDATE_DETAILS_FAIL, payload: error.response.data });
+      dispatch({ type: USER_ERROR, payload: error.response.data });
     }
   };
-  //Create order record after successful transaction
-  const createOrderRecord = async (total, basket, sessionId) => {
+  //Update user details
+  const updateUserAddress = async (formData) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
-    const data = {
-      basket,
-      total,
-      sessionId,
+    try {
+      const res = await axios.put(
+        '/api/v1/users/updateaddress',
+        formData,
+        config
+      );
+
+      dispatch({ type: UPDATE_ADDRESS, payload: formData });
+    } catch (error) {
+      dispatch({ type: USER_ERROR, payload: error.response.data });
+    }
+  };
+  //Update user details
+  const addUserAddress = async (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     };
     try {
       const res = await axios.post(
-        `/api/v1/users/create-order-record`,
-        data,
+        '/api/v1/users/addaddress',
+        formData,
         config
       );
-      dispatch({ type: CREATE_ORDER_RECORD, payload: data });
+
+      dispatch({ type: ADD_ADDRESS, payload: res.data.data });
     } catch (error) {
-      dispatch({
-        type: UNIVERSAL_ERROR,
-        payload: error.response.data,
-      });
+      dispatch({ type: USER_ERROR, payload: error.response.data });
     }
   };
+  //delete address
+  const deleteAddress = async (id) => {
+    try {
+      await axios.delete(`/api/v1/users/${id}/deleteaddress`);
 
-  //Logout
-
-  //Clear errors
-
+      dispatch({ type: DELETE_ADDRESS, payload: id });
+    } catch (error) {
+      dispatch({ type: USER_ERROR, payload: error.response.data });
+    }
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -132,11 +155,16 @@ const AuthState = (props) => {
         loading: state.loading,
         user: state.user,
         error: state.error,
-        createOrderRecord,
         register,
         login,
-        updateDetails,
         persistUser,
+        //////////////////////////////////////////////
+        ///// User Details
+        /////////////////////////////////////////////
+        updateDetails,
+        updateUserAddress,
+        addUserAddress,
+        deleteAddress,
       }}
     >
       {props.children}
