@@ -4,11 +4,8 @@ import AuthContext from '../../context/auth/authContext';
 import M from 'materialize-css';
 function Navbar() {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, user, persistUser } = authContext;
+  const { isAuthenticated, user, logout } = authContext;
 
-  useEffect(() => {
-    persistUser();
-  }, []);
   useEffect(() => {
     var elems = document.querySelectorAll('.sidenav');
     M.Sidenav.init(elems, {});
@@ -27,7 +24,9 @@ function Navbar() {
         <Link to="/basket">Basket</Link>
       </li>{' '}
       <li>
-        <Link to="/basket">Logout</Link>
+        <Link to="/" onClick={() => logout()}>
+          Logout
+        </Link>
       </li>
     </Fragment>
   );
@@ -73,7 +72,12 @@ function Navbar() {
         <li>
           <Link to="/account">
             <i className="material-icons  hello-user ">account_circle</i>
-            <p className="hello-user-name ">Hello, Evalds</p>
+            <p
+              className="hello-user-name center"
+              style={{ fontSize: '1.8rem' }}
+            >
+              Hello, {user ? user.name : 'Guest'}
+            </p>
           </Link>
         </li>
         <li>

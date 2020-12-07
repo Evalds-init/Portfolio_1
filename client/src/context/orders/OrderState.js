@@ -1,4 +1,4 @@
-import { GET_ORDERS, GET_ORDERS_ERROR } from '../types';
+import { GET_ORDERS, GET_ORDERS_ERROR, CLEAR_ORDER_ERROR } from '../types';
 import React, { useReducer } from 'react';
 import OrderContext from './orderContext';
 import orderReducer from './orderReducer';
@@ -8,7 +8,7 @@ axios.defaults.withCredentials = true;
 const OrderState = (props) => {
   const initialState = {
     orders: [],
-    error: null,
+    orderError: null,
     loading: true,
   };
 
@@ -20,14 +20,18 @@ const OrderState = (props) => {
       dispatch({ type: GET_ORDERS, payload: res.data.data });
     } catch (error) {
       dispatch({ type: GET_ORDERS_ERROR, payload: error.response.data });
+      clearError();
     }
+  };
+  const clearError = () => {
+    setTimeout(() => dispatch({ type: CLEAR_ORDER_ERROR }), 5000);
   };
 
   return (
     <OrderContext.Provider
       value={{
         orders: state.orders,
-        error: state.error,
+        orderError: state.orderError,
         loading: state.loading,
         getOrders,
       }}

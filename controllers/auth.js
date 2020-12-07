@@ -10,15 +10,17 @@ const crypto = require('crypto');
 //@access Public
 
 exports.register = asyncResolver(async (req, res, next) => {
-  const { name, email, password, role } = req.body;
-  const user = await User.create({ name, email, password, role });
+  console.log(req.body);
+  let user = await User.create(req.body);
   let basket = new Basket();
   user.basketId = basket._id;
   basket.user = user.id;
-  await user.save();
+  user = await user.save();
   await basket.save();
   //Create JWT token and send it in cookies
-  sendTokenInCookie(user, 200, res);
+  let temp = process.env.TEMPORARY_COKIE_EXPIRE * 60 * 1000;
+  console.log(temp);
+  sendTokenInCookie(user, 200, res, temp);
 });
 
 //@desc Login user
@@ -39,27 +41,38 @@ exports.login = asyncResolver(async (req, res, next) => {
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
-
+  let expiryDate = 30 * 60 * 100;
   //Create JWT token and send it in cookies
-  sendTokenInCookie(user, 200, res);
+  sendTokenInCookie(user, 200, res, expiryDate);
 });
 //@desc Persist user
 //@route get /api/v1/auth/persistuser
-//@access Private
+//@access Public
 
 exports.persistUser = asyncResolver(async (req, res, next) => {
-  const user = req.user;
-  sendTokenInCookie(user, 200, res);
+  const { email, password } = req.body;
+  //Validation
+  if (!email || !password) {
+    return next(new ErrorResponse('Creadentials missing', 400));
+  }
+  const user = await User.findOne({ email }).select('+password');
+  if (!user) {
+    return next(new ErrorResponse('Invalid credentials', 401));
+  }
+  const isMatch = await user.matchPassword(password);
+  if (!isMatch) {
+    return next(new ErrorResponse('Invalid credentials', 401));
+  }
+  let expiryDate = 365 * 24 * 60 * 60 * 100;
+  sendTokenInCookie(user, 200, res, expiryDate);
 });
 
 //Get token , create cookie
-const sendTokenInCookie = (user, statusCode, res) => {
+const sendTokenInCookie = (user, statusCode, res, time) => {
   const token = user.getSignedJwtToken();
   const options = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
+    expires: new Date(Date.now() + time),
+    httpOnly: false,
   };
   if (process.env.NODE_ENV === 'production') {
     options.secure = true;

@@ -7,28 +7,33 @@ import BasketContext from '../../context/basket/basketContext';
 import ProductContext from '../../context/products/productContext';
 import Search from '../selector/Search';
 import Preloader from '../preloader/Preloader';
+import AdminContext from '../../context/admin/adminContext';
 function MainPageItems({}) {
+  const adminContext = useContext(AdminContext);
+  const { adminError, createdProduct } = adminContext;
   const authContext = useContext(AuthContext);
   const basketContext = useContext(BasketContext);
   const productContext = useContext(ProductContext);
-  const { persistUser, isAuthenticated } = authContext;
+  const { isAuthenticated } = authContext;
+  const { getBasketItems } = basketContext;
   const {
     products,
     categoryFilter,
     getProducts,
     searchResults,
-    addImages,
-    createProduct,
     loading,
   } = productContext;
   useEffect(() => {
-    if (!isAuthenticated) {
-      persistUser();
-    }
     getProducts();
-    basketContext.getBasketItems();
+    if (isAuthenticated) {
+      getBasketItems();
+    }
   }, []);
-  useEffect(() => {}, [addImages, createProduct]);
+  useEffect(() => {
+    if (!adminError && createdProduct) {
+      getProducts();
+    }
+  }, [createdProduct]);
 
   return (
     <div className="z-depth-1 main-page-items">

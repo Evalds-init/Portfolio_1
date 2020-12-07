@@ -11,6 +11,7 @@ import Orders from './components/orders/Orders';
 import Account from './components/account/Account';
 import ProductState from './context/products/productState';
 import AuthState from './context/auth/AuthState';
+import AdminState from './context/admin/AdminState';
 import AlertState from './context/alert/AlertState';
 import BasketState from './context/basket/BasketState';
 import AddMerchandise from './components/admin/AddMerchandise';
@@ -25,34 +26,36 @@ function App() {
         <ProductState>
           <BasketState>
             <OrderState>
-              <Router>
-                <div className="container">
-                  <Navbar />
-                  <Alerts />
+              <AdminState>
+                <Router>
+                  <div className="container">
+                    <Navbar />
+                    <Alerts />
 
-                  <Switch>
-                    <Route exact path="/" component={MainPageItems} />
-                    <Route exact path="/basket" component={Basket} />
-                    <Route exact path="/checkout" component={Checkout} />
-                    <Route
-                      exact
-                      path="/checkout/canceled"
-                      component={Canceled}
-                    />
-                    <Route exact path="/orders" component={Orders} />
-                    <Route exact path="/register" component={Register} />
+                    <Switch>
+                      <Route exact path="/" component={MainPageItems} />
+                      <Route exact path="/basket" component={Basket} />
+                      <Route exact path="/checkout" component={Checkout} />
+                      <Route
+                        exact
+                        path="/checkout/canceled"
+                        component={Canceled}
+                      />
+                      <Route exact path="/orders" component={Orders} />
+                      <Route exact path="/register" component={Register} />
 
-                    <Route
-                      exact
-                      path="/admin/addmerchandise"
-                      component={AddMerchandise}
-                    />
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/item/:id" component={SingleItem} />
-                    <Route exact path="/account" component={Account} />
-                  </Switch>
-                </div>
-              </Router>
+                      <Route
+                        exact
+                        path="/admin/addmerchandise"
+                        component={AddMerchandise}
+                      />
+                      <Route exact path="/login" component={Login} />
+                      <Route exact path="/item/:id" component={SingleItem} />
+                      <Route exact path="/account" component={Account} />
+                    </Switch>
+                  </div>
+                </Router>
+              </AdminState>
             </OrderState>
           </BasketState>
         </ProductState>

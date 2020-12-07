@@ -8,13 +8,7 @@ function Total({ onClick = (f) => f }) {
   const authContext = useContext(AuthContext);
   const { setAlert } = alertContext;
   const basketContext = useContext(BasketContext);
-  const {
-    createCheckoutSession,
-    sessionId,
-    total,
-    basket,
-    clearBasketState,
-  } = basketContext;
+  const { total } = basketContext;
 
   return (
     <div className="card-action basket">

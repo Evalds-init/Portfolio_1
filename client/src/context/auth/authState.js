@@ -1,17 +1,17 @@
 import {
+  /// Authorization
   REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  UPDATE_DETAILS,
-  USER_LOADED,
-  AUTH_ERROR,
+  AUTH_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS,
+  CLEAR_AUTH_ERRORS,
+  /// User actions
   USER_ERROR,
   UPDATE_ADDRESS,
   ADD_ADDRESS,
   DELETE_ADDRESS,
+  UPDATE_DETAILS,
+  CLEAR_USER_ERRORS,
 } from '../types';
 
 import React, { useReducer } from 'react';
@@ -23,14 +23,16 @@ axios.defaults.withCredentials = true;
 const AuthState = (props) => {
   const initialState = {
     isAuthenticated: null,
-    loading: true,
-    error: null,
+    authError: null,
+    userError: null,
     user: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
-  //Load user
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////// Authorization
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
   //Register user
   const register = async (formData) => {
     const config = {
@@ -43,8 +45,8 @@ const AuthState = (props) => {
 
       dispatch({ type: REGISTER_SUCCESS, payload: res.data.data });
     } catch (error) {
-      console.log(error);
-      dispatch({ type: REGISTER_FAIL, payload: error.response.data });
+      dispatch({ type: AUTH_FAIL, payload: error.response.data.error });
+      clearAuthErrors();
     }
   };
   //Login user
@@ -59,25 +61,40 @@ const AuthState = (props) => {
 
       dispatch({ type: LOGIN_SUCCESS, payload: res.data.data });
     } catch (error) {
-      console.log(error);
-      dispatch({ type: LOGIN_FAIL, payload: error.response.data });
+      dispatch({ type: AUTH_FAIL, payload: error.response.data });
+      clearAuthErrors();
     }
   };
-  //Persistuser
-  const persistUser = async () => {
+  //Persist user
+  const persistUser = async (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
     try {
-      const res = await axios.get('/api/v1/auth/persistuser');
+      const res = await axios.post(
+        '/api/v1/auth/persistuser',
+        formData,
+        config
+      );
 
       dispatch({ type: LOGIN_SUCCESS, payload: res.data.data });
     } catch (error) {
-      console.log(error);
-      dispatch({ type: LOGIN_FAIL, payload: error.response.data });
+      dispatch({ type: AUTH_FAIL, payload: error.response.data.error });
+      clearAuthErrors();
     }
   };
 
   //Logout
+  const logout = () => {
+    dispatch({ type: LOGOUT });
+  };
 
   //Clear errors
+  const clearAuthErrors = () => {
+    setTimeout(() => dispatch({ type: CLEAR_AUTH_ERRORS }), 5000);
+  };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////// User detail update
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,6 +115,7 @@ const AuthState = (props) => {
       dispatch({ type: UPDATE_DETAILS, payload: res.data.data });
     } catch (error) {
       dispatch({ type: USER_ERROR, payload: error.response.data });
+      clearUserErrors();
     }
   };
   //Update user details
@@ -117,6 +135,7 @@ const AuthState = (props) => {
       dispatch({ type: UPDATE_ADDRESS, payload: formData });
     } catch (error) {
       dispatch({ type: USER_ERROR, payload: error.response.data });
+      clearUserErrors();
     }
   };
   //Update user details
@@ -136,6 +155,7 @@ const AuthState = (props) => {
       dispatch({ type: ADD_ADDRESS, payload: res.data.data });
     } catch (error) {
       dispatch({ type: USER_ERROR, payload: error.response.data });
+      clearUserErrors();
     }
   };
   //delete address
@@ -146,21 +166,27 @@ const AuthState = (props) => {
       dispatch({ type: DELETE_ADDRESS, payload: id });
     } catch (error) {
       dispatch({ type: USER_ERROR, payload: error.response.data });
+      clearUserErrors();
     }
+  };
+  //Clear errors
+  const clearUserErrors = () => {
+    setTimeout(() => dispatch({ type: CLEAR_USER_ERRORS }), 5000);
   };
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated: state.isAuthenticated,
-        loading: state.loading,
         user: state.user,
-        error: state.error,
+        authError: state.authError,
         register,
         login,
         persistUser,
+        logout,
         //////////////////////////////////////////////
         ///// User Details
         /////////////////////////////////////////////
+        userError: state.userError,
         updateDetails,
         updateUserAddress,
         addUserAddress,

@@ -6,7 +6,7 @@ function EditDetails() {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const { setAlert } = alertContext;
-  const { updateDetails, isAuthenticated, user } = authContext;
+  const { updateDetails, user } = authContext;
 
   const [updatedDetails, setUpdatedDetails] = useState({
     name: user.name || '',

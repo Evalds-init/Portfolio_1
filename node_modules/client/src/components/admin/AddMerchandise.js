@@ -1,27 +1,39 @@
 import React, { useEffect, useState, useContext } from 'react';
 import M from 'materialize-css';
 import AlertContext from '../../context/alert/alertContext';
-import ProductContext from '../../context/products/productContext';
+import AdminContext from '../../context/admin/adminContext';
 import { useHistory } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
 function AddMerchandise() {
   let history = useHistory();
   const alertContext = useContext(AlertContext);
-  const productContext = useContext(ProductContext);
-  const { createProduct, product, error, loading } = productContext;
+  const adminContext = useContext(AdminContext);
+  const { createProduct, createdProduct, adminError, loading } = adminContext;
   const { setAlert } = alertContext;
   useEffect(() => {
     const elem = document.getElementById('textarea2');
     M.CharacterCounter.init(elem);
-
     var elems = document.querySelectorAll('select');
     M.FormSelect.init(elems);
   }, []);
   useEffect(() => {
-    if (product) {
-      history.push(`/item/${product._id}`);
+    if (createdProduct && !adminError && !loading) {
+      setAlert(
+        'Product successfully added',
+        'green',
+        'col s10 offset-s1 m10 offset-m1 l10 offset-l1'
+      );
+      history.push(`/item/${createdProduct._id}`);
     }
-  }, [product]);
+  }, [createdProduct]);
+  useEffect(() => {
+    if (adminError) {
+      setAlert(
+        `${adminError}`,
+        'red',
+        'col s10 offset-s1 m10 offset-m1 l10 offset-l1'
+      );
+    }
+  }, [adminError]);
   const [newProduct, setNewProduct] = useState({
     name: '',
     price: '',
@@ -41,7 +53,6 @@ function AddMerchandise() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-
     if (
       name === '' ||
       price === '' ||
@@ -55,11 +66,6 @@ function AddMerchandise() {
         'col s10 offset-s1 m10 offset-m1 l10 offset-l1'
       );
     } else {
-      setAlert(
-        'Product successfully added',
-        'green',
-        'col s10 offset-s1 m10 offset-m1 l10 offset-l1'
-      );
       createProduct({
         name,
         price,

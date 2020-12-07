@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 import AuthContext from '../../../context/auth/authContext';
 import ProductContext from '../../../context/products/productContext';
 import AlertContext from '../../../context/alert/alertContext';

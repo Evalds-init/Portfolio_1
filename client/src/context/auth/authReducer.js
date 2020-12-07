@@ -1,28 +1,29 @@
 import {
+  /// Authorization
   REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  UPDATE_DETAILS,
-  USER_LOADED,
-  AUTH_ERROR,
+  AUTH_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS,
+  CLEAR_AUTH_ERRORS,
+  /// User actions
   USER_ERROR,
-  ADD_ADDRESS,
   UPDATE_ADDRESS,
+  ADD_ADDRESS,
   DELETE_ADDRESS,
+  UPDATE_DETAILS,
+  CLEAR_USER_ERRORS,
 } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////// User actions
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     case UPDATE_DETAILS:
       return {
         ...state,
         isAuthenticated: true,
-        loading: false,
         user: action.payload,
-        error: null,
       };
     case UPDATE_ADDRESS:
       return {
@@ -54,42 +55,41 @@ export default (state, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        loading: false,
-        error: action.payload,
+        userError: action.payload,
       };
+    case CLEAR_USER_ERRORS:
+      return { ...state, userError: null };
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////// Authorization
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     case REGISTER_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
-        loading: false,
         user: action.payload,
-
-        error: null,
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
-        loading: false,
         user: action.payload,
-        error: null,
       };
-    case REGISTER_FAIL:
+    case AUTH_FAIL:
       return {
         ...state,
         isAuthenticated: false,
-        loading: false,
         user: null,
-        error: action.payload,
+        authError: action.payload,
       };
-    case LOGIN_FAIL:
+
+    case LOGOUT:
       return {
         ...state,
         isAuthenticated: false,
-        loading: false,
         user: null,
-        error: action.payload,
       };
+    case CLEAR_AUTH_ERRORS:
+      return { ...state, authError: null };
 
     default:
       return state;

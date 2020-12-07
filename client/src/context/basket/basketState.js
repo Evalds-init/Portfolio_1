@@ -7,8 +7,8 @@ import {
   GET_BASKET_TOTAL,
   CHANGE_QUANTITY,
   CLEAR_BASKET_STATE,
-  BASKET_PAYMENT_ERROR,
-  CLEAR_CHECKOUT_ERRORS,
+  PAYMENT_ERROR,
+  CLEAR_BASKET_ERRORS,
 } from '../types';
 import React, { useReducer } from 'react';
 import BasketContext from './basketContext';
@@ -20,8 +20,8 @@ const BasketState = (props) => {
   const initialState = {
     basket: null,
     total: 0,
-    error: null,
-    cardError: null,
+    basketError: null,
+    checkoutError: null,
     loading: true,
   };
 
@@ -35,6 +35,7 @@ const BasketState = (props) => {
       dispatch({ type: GET_BASKET, payload: res.data.data });
     } catch (error) {
       dispatch({ type: BASKET_ERROR, payload: error.response.data });
+      clearErrors();
     }
   };
   //Get basket total
@@ -45,7 +46,7 @@ const BasketState = (props) => {
     };
     dispatch({ type: GET_BASKET_TOTAL, payload: item });
   };
-  //Get basket total
+  //Change item quantity (client side only)
   const changeItemQuantity = (id, quantity) => {
     const item = {
       id,
@@ -61,6 +62,7 @@ const BasketState = (props) => {
       dispatch({ type: DELETE_BASKET_ITEM, payload: id });
     } catch (error) {
       dispatch({ type: BASKET_ERROR, payload: error.response.data });
+      clearErrors();
     }
   };
   //Create order record after successful transaction
@@ -84,10 +86,10 @@ const BasketState = (props) => {
       dispatch({ type: PROCESS_BASKET_PAYMENT, payload: res.data.data });
     } catch (error) {
       dispatch({
-        type: BASKET_PAYMENT_ERROR,
+        type: PAYMENT_ERROR,
         payload: error.response.data.error,
       });
-      setTimeout(() => dispatch({ type: CLEAR_CHECKOUT_ERRORS }), 6000);
+      clearErrors();
     }
   };
   //Add item to users' basket
@@ -112,18 +114,21 @@ const BasketState = (props) => {
       dispatch({ type: ADD_TO_BASKET, payload: product });
     } catch (error) {
       dispatch({ type: BASKET_ERROR, payload: error.response.data });
+      clearErrors();
     }
   };
-
+  const clearErrors = () => {
+    setTimeout(() => dispatch({ type: CLEAR_BASKET_ERRORS }), 5000);
+  };
 
   return (
     <BasketContext.Provider
       value={{
         basket: state.basket,
-        error: state.error,
+        basketError: state.basketError,
         loading: state.loading,
         total: state.total,
-        cardError: state.cardError,
+        checkoutError: state.checkoutError,
         getBasketItems,
         clearBasketState,
         deleteBasketItem,
@@ -131,7 +136,6 @@ const BasketState = (props) => {
         addToBasket,
         changeItemQuantity,
         acceptPayment,
- 
       }}
     >
       {props.children}

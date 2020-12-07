@@ -4,7 +4,7 @@ import OrderContext from '../../context/orders/orderContext';
 import Preloader from '../preloader/Preloader';
 function Orders() {
   const orderContext = useContext(OrderContext);
-  const { getOrders, orders, loading, error } = orderContext;
+  const { getOrders, orders, loading } = orderContext;
 
   useEffect(() => {
     getOrders();

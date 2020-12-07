@@ -1,13 +1,14 @@
 import {
-  DELETE_BASKET_ITEM,
   GET_BASKET,
+  DELETE_BASKET_ITEM,
   PROCESS_BASKET_PAYMENT,
+  BASKET_ERROR,
   ADD_TO_BASKET,
   GET_BASKET_TOTAL,
-  BASKET_PAYMENT_ERROR,
   CHANGE_QUANTITY,
   CLEAR_BASKET_STATE,
-  CLEAR_CHECKOUT_ERRORS,
+  PAYMENT_ERROR,
+  CLEAR_BASKET_ERRORS,
 } from '../types';
 
 export default (state, action) => {
@@ -17,6 +18,7 @@ export default (state, action) => {
         ...state,
         basket: action.payload,
       };
+
     case ADD_TO_BASKET:
       return {
         ...state,
@@ -33,7 +35,6 @@ export default (state, action) => {
         loading: false,
         total: 0,
         basket: null,
-        cardError: null,
       };
     case GET_BASKET_TOTAL:
       return {
@@ -43,14 +44,17 @@ export default (state, action) => {
           0
         ),
       };
-    case BASKET_PAYMENT_ERROR:
+    //// Errors
+    case PAYMENT_ERROR:
       return {
         ...state,
-        loading: true,
-        cardError: action.payload,
+        loading: false,
+        checkoutError: action.payload,
       };
-    case CLEAR_CHECKOUT_ERRORS:
-      return { ...state, loading: true, cardError: null };
+    case BASKET_ERROR:
+      return { ...state, loading: false, basketError: action.payload };
+    case CLEAR_BASKET_ERRORS:
+      return { ...state, checkoutError: null, basketError: null };
     case CHANGE_QUANTITY:
       return {
         ...state,

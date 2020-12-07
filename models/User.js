@@ -45,7 +45,6 @@ const UserSchema = new mongoose.Schema({
     type: [
       {
         _id: { type: ObjectId, auto: true },
-        name: { type: String, unique: true },
         line1: { type: String },
         line2: { type: String },
         city: { type: String },

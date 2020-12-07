@@ -1,11 +1,12 @@
 import {
-  CREATE_PRODUCT,
+  /// Products
   GET_PRODUCTS,
-  PRODUCTS_FAIL,
+  PRODUCTS_ERROR,
   GET_PRODUCT,
   REMOVE_PRODUCT,
+  /// Filtering
   FILTER_BY_CATEGORY,
-  CLEAR_CURRENT_FILTER,
+  CLEAR_FILTERS,
   FILTER_BY_RATING,
   RATE_PRODUCT,
   SEARCH_PRODUCTS,
@@ -14,16 +15,13 @@ import {
 
 export default (state, action) => {
   switch (action.type) {
-    case CREATE_PRODUCT:
-      return {
-        ...state,
-        product: action.payload,
-      };
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////// Products
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
     case GET_PRODUCTS:
       return {
         ...state,
         loading: false,
-        error: null,
         products: action.payload,
       };
     case GET_PRODUCT:
@@ -39,8 +37,11 @@ export default (state, action) => {
         ...state,
         product: [],
       };
-    case PRODUCTS_FAIL:
-      return { ...state, products: [], error: action.payload, loading: false };
+    case PRODUCTS_ERROR:
+      return { ...state, productError: action.payload };
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////// Filters
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
     case FILTER_BY_CATEGORY:
       return {
         ...state,
@@ -74,7 +75,7 @@ export default (state, action) => {
         ...state,
         searchResults: [],
       };
-    case CLEAR_CURRENT_FILTER:
+    case CLEAR_FILTERS:
       return {
         ...state,
         categoryFilter: [],

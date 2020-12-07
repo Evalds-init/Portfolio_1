@@ -1,16 +1,31 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/auth/authContext';
-import M from 'materialize-css';
+import AlertContext from '../../context/alert/alertContext';
 const Register = (props) => {
   const authContext = useContext(AuthContext);
 
-  const { register, isAuthenticated } = authContext;
-
+  const { register, isAuthenticated, error } = authContext;
+  const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
   useEffect(() => {
     if (isAuthenticated) {
+      setAlert(
+        'You have successfully registered an account',
+        'green',
+        'col s10 offset-s1 m8 offset-m2 l8 offset-l2'
+      );
       props.history.push('/');
     }
-  }, [isAuthenticated, props.history]);
+  }, [isAuthenticated]);
+  useEffect(() => {
+    if (error) {
+      setAlert(
+        `${error}`,
+        'red',
+        'col s10 offset-s1 m8 offset-m2 l8 offset-l2'
+      );
+    }
+  }, [error]);
 
   const [user, setUser] = useState({
     name: '',
@@ -29,15 +44,19 @@ const Register = (props) => {
 
     // handle all cases
     if (name === '' || email === '' || password === '') {
-      M.toast({ html: 'Please enter all required fields', classes: 'failure' });
+      setAlert(
+        'All fields are required',
+        'red',
+        'col s10 offset-s1 m8 offset-m2 l8 offset-l2'
+      );
     } else if (password !== password2) {
-      M.toast({ html: 'Passwords do not match', classes: 'failure' });
+      setAlert(
+        'Passwords do not match',
+        'red',
+        'col s10 offset-s1 m8 offset-m2 l8 offset-l2'
+      );
     } else {
-      register({ name, email, password });
-      M.toast({
-        html: 'You have successfully registered and account',
-        classes: 'success',
-      });
+      register({ name, email, password, lastName });
     }
   };
 
@@ -86,14 +105,14 @@ const Register = (props) => {
           <div className="row">
             <div className="input-field col s12">
               <input
-                id="password 2"
+                id="password2"
                 type="password"
                 className="validate"
                 name="password2"
                 value={password2}
                 onChange={onChange}
               />
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password2">Password</label>
             </div>
           </div>
           <div className="row">
