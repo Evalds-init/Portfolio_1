@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const fileupload = require('express-fileupload');
 //Load dotenv variables
 require('dotenv').config({ path: 'config/config.env' });
@@ -21,7 +22,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 // File uploading
 app.use(fileupload());
-//Stripe payments
+
+app.use(express.static(path.join(__dirname, 'client/build')))
 
 
 //Routes
