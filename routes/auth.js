@@ -3,6 +3,7 @@ const {
   persistUser,
   register,
   login,
+  loadUser,
   getCurrentUser,
   passwordResetTokenGen,
   resetPassword,
@@ -11,6 +12,7 @@ const { authCheck } = require('../middleware/authCheck');
 const router = express.Router();
 
 router.post('/register', register);
+router.post('/loaduser', authCheck, loadUser);
 router.post('/persistuser', persistUser);
 router.post('/login', login);
 router.get('/me', authCheck, getCurrentUser);

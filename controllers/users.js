@@ -22,6 +22,7 @@ exports.updateAddress = asyncResolver(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, {
     $pull: { address: { _id: req.body._id } },
   });
+
   await User.findByIdAndUpdate(req.user.id, {
     $push: { address: req.body },
   });

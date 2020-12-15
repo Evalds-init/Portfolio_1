@@ -24,7 +24,8 @@ function AddMerchandise() {
       );
       history.push(`/item/${createdProduct._id}`);
     }
-  }, [createdProduct]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdProduct, adminError, loading]);
   useEffect(() => {
     if (adminError) {
       setAlert(
@@ -33,6 +34,7 @@ function AddMerchandise() {
         'col s10 offset-s1 m10 offset-m1 l10 offset-l1'
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adminError]);
   const [newProduct, setNewProduct] = useState({
     name: '',

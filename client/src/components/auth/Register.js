@@ -4,7 +4,7 @@ import AlertContext from '../../context/alert/alertContext';
 const Register = (props) => {
   const authContext = useContext(AuthContext);
 
-  const { register, isAuthenticated, error } = authContext;
+  const { register, isAuthenticated, authError } = authContext;
   const alertContext = useContext(AlertContext);
   const { setAlert } = alertContext;
   useEffect(() => {
@@ -16,16 +16,18 @@ const Register = (props) => {
       );
       props.history.push('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
   useEffect(() => {
-    if (error) {
+    if (authError) {
       setAlert(
-        `${error}`,
+        `${authError}`,
         'red',
         'col s10 offset-s1 m8 offset-m2 l8 offset-l2'
       );
     }
-  }, [error]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authError]);
 
   const [user, setUser] = useState({
     name: '',

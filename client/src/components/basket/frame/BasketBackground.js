@@ -1,16 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import BasketItem from '../item/BasketItem';
 import Total from './Total';
 
-const CheckOut = ({ basket, onClick = (f) => f }) => {
+const BasketBackground = ({ basket, onClick = (f) => f }) => {
   return (
     <div className="card inner-checkout">
       <div className="card-content white-text">
         <span className="card-title center section">Basket Overview</span>
-        <p className="center mt-4">
-          I am a very simple card. I am good at containing small bits of
-          information. I am convenient because I require little markup to use
-          effectively.
+        <p className="center mt-4 grey-text light">
+          Order are usually dispatched the next working day
         </p>{' '}
         <div className="section mt-4">
           {' '}
@@ -25,4 +23,4 @@ const CheckOut = ({ basket, onClick = (f) => f }) => {
   );
 };
 
-export default CheckOut;
+export default BasketBackground;

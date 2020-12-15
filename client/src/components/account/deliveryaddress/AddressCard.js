@@ -13,8 +13,8 @@ export default function AddressCard({ address }) {
       {form ? (
         <EditDeliveryAddress address={address} toggleForm={toggleForm} />
       ) : (
-        <div className="col s8 offset-s2 m6 l6">
-          <div className="card-panel grey lighten-2 z-depth-2">
+        <div className="col s10 offset-s1 m6 l6">
+          <div className="card-panel  z-depth-2">
             <span className="black-text">
               <table>
                 <thead>

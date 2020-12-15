@@ -7,7 +7,7 @@ export default function EditDeliveryAddress({ address = {}, ...props }) {
   const { setAlert } = alertContext;
   const { updateUserAddress, addUserAddress } = authContext;
   const [updateAddress, setUpdateAddress] = useState({
-    name: address.name,
+    name: address.name || '',
     line1: address.line1 || '',
     line2: address.line2 || '',
     city: address.city || '',
@@ -39,7 +39,7 @@ export default function EditDeliveryAddress({ address = {}, ...props }) {
     setUpdateAddress({ ...updateAddress, [e.target.name]: e.target.value });
   };
   return (
-    <form className="col s8 offset-s2 m6 l6">
+    <form className="col s10 offset-s1 m6 l6">
       <div className="row">
         <div className="input-field col s12 m12 l12">
           <i className="material-icons prefix">card_membership</i>

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Stars from './starRating/Stars';
 import ProductContext from '../../context/products/productContext';
 function Options() {
   const productContext = useContext(ProductContext);

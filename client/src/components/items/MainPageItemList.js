@@ -12,7 +12,11 @@ function MainPageItemList({ item: { photo, name, _id, description, price } }) {
       <div className="col s12 m12 l12 section">
         <div className="horizontal-custom-item-card  hoverable">
           <div className="card-image-item-card">
-            <img src={photo[0]} className="img-custom-item-card" />
+            <img
+              src={photo[0]}
+              className="img-custom-item-card"
+              alt="product"
+            />
           </div>{' '}
           <div className="row">
             <div className="col m12 s12 l12">
@@ -42,7 +46,11 @@ function MainPageItemList({ item: { photo, name, _id, description, price } }) {
                       </div>
                       <div>
                         {' '}
-                        <Link to={`/item/${_id}`} onClick={onClick} className='price'>
+                        <Link
+                          to={`/item/${_id}`}
+                          onClick={onClick}
+                          className="price"
+                        >
                           Price: £{price}
                         </Link>
                       </div>

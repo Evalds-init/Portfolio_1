@@ -10,7 +10,7 @@ function Form({ toBasket = (f) => f }) {
     acceptPayment,
     total,
     basket,
-    cardError,
+    checkoutError,
     loading,
     clearBasketState,
   } = basketContext;
@@ -30,29 +30,32 @@ function Form({ toBasket = (f) => f }) {
     }
   };
   useEffect(() => {
-    if (cardError) {
+    if (checkoutError) {
       setAlert(
-        `${cardError}`,
+        `${checkoutError}`,
         'red',
         'col s8 offset-s2 m8 offset-m2 l8 offset-l2'
       );
     }
-  }, [cardError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkoutError]);
   useEffect(() => {
-    if (!loading && !cardError && !basket) {
+    if (!loading && !checkoutError && !basket) {
       setTimeout(() => history.push('/orders'), 3000);
     }
-  }, [loading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, checkoutError, basket]);
   useEffect(() => {
     return () => {
       clearBasketState();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="container">
       <div className="row">
-        {!loading && !cardError ? (
+        {!loading && !checkoutError ? (
           <div className="custom-form">
             <div className="success-checkmark">
               <div className="check-icon">

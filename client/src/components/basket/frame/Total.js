@@ -1,19 +1,20 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import BasketContext from '../../../context/basket/basketContext';
-import AlertContext from '../../../context/alert/alertContext';
-import AuthContext from '../../../context/auth/authContext';
-
 function Total({ onClick = (f) => f }) {
-  const alertContext = useContext(AlertContext);
-  const authContext = useContext(AuthContext);
-  const { setAlert } = alertContext;
+
+
   const basketContext = useContext(BasketContext);
-  const { total } = basketContext;
+  const { total, basket, getBasketTotal } = basketContext;
+  useEffect(() => {}, [total]);
+  useEffect(() => {
+    getBasketTotal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [basket]);
 
   return (
     <div className="card-action basket">
       <div>
-        <h5 className="white-text">Basket Total: {total}</h5>
+        <h5 className="indigo-text">Basket Total: {total}</h5>
       </div>
       <button
         type="link"

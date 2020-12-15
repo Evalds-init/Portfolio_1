@@ -5,3 +5,20 @@
   align-self: center;
   width: 100%;
 }
+.carousel .carousel-item > img {
+  height: 160%;
+  width: 125%;
+}
+.card-stacked {
+  &.single-item {
+    background-color: white;
+    & a {
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+}

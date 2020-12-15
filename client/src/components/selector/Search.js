@@ -13,6 +13,7 @@ function Search() {
     if (searchResults.length === 0) {
       text.current.value = '';
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (categoryFilter.length !== 0) {

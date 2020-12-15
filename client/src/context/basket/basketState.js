@@ -39,12 +39,8 @@ const BasketState = (props) => {
     }
   };
   //Get basket total
-  const getBasketTotal = (id, quantity) => {
-    const item = {
-      id,
-      quantity,
-    };
-    dispatch({ type: GET_BASKET_TOTAL, payload: item });
+  const getBasketTotal = () => {
+    dispatch({ type: GET_BASKET_TOTAL });
   };
   //Change item quantity (client side only)
   const changeItemQuantity = (id, quantity) => {

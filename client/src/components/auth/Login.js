@@ -7,7 +7,7 @@ function Login(props) {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const { setAlert } = alertContext;
-  const { login, isAuthenticated, persistUser, error } = authContext;
+  const { login, isAuthenticated, persistUser, authError } = authContext;
   const [user, setUser] = useState({ email: '', password: '' });
   const { email, password } = user;
   const [remember, toggleRemember] = useReducer((remember) => !remember, false);
@@ -20,20 +20,21 @@ function Login(props) {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   useEffect(() => {
-    if (error) {
+    if (authError) {
       setAlert(
-        `${error}`,
+        `${authError.error}`,
         'red',
-        'col s10 offset-s1 m8 offset-m2 l8 offset-l2'
+        'col s6 offset-s6 m6 offset-m6 l6 offset-l6'
       );
     }
-  }, [error]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authError]);
   const onSubmit = (e) => {
     e.preventDefault();
 
     if (email === '' || password === '') {
       setAlert(
-        'Please enter your details',
+        'Please fill in all required fields',
         'red',
         'col s6 offset-s6 m6 offset-m6 l6 offset-l6'
       );

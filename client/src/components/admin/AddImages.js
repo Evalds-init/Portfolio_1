@@ -23,7 +23,8 @@ function AddImages({ id }) {
       );
       history.push(`/item/${createdProduct._id}`);
     }
-  }, [createdProduct]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdProduct, adminError, loading]);
   const onSubmit = (e) => {
     e.preventDefault();
     addImages(formData, id);

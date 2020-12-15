@@ -15,13 +15,14 @@ const errorToJson = (err, req, res, next) => {
     const message = `Duplicate ${Object.keys(
       err.keyValue
     )} field value entered`;
-    error = new ErrorResponse(message, 400);
+    error = new ErrorResponse(message, 500);
   }
   if (err.name === 'TypeError') {
     const message = `Invalid Data Type`;
     error = new ErrorResponse(message, 400);
   } else {
-    error = new ErrorResponse(err.message, 500);
+    console.log(error);
+    error = new ErrorResponse(error.message, 500);
   }
 
   res.status(error.statusCode || 500).json({

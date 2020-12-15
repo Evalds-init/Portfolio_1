@@ -65,6 +65,17 @@ const AuthState = (props) => {
       clearAuthErrors();
     }
   };
+  //Login user
+  const loadUser = async () => {
+    try {
+      const res = await axios.post('/api/v1/auth/loaduser');
+
+      dispatch({ type: LOGIN_SUCCESS, payload: res.data.data });
+    } catch (error) {
+      dispatch({ type: AUTH_FAIL, payload: error.response.data });
+      clearAuthErrors();
+    }
+  };
   //Persist user
   const persistUser = async (formData) => {
     const config = {
@@ -125,12 +136,9 @@ const AuthState = (props) => {
         'Content-Type': 'application/json',
       },
     };
+
     try {
-      const res = await axios.put(
-        '/api/v1/users/updateaddress',
-        formData,
-        config
-      );
+      await axios.put('/api/v1/users/updateaddress', formData, config);
 
       dispatch({ type: UPDATE_ADDRESS, payload: formData });
     } catch (error) {
@@ -180,6 +188,7 @@ const AuthState = (props) => {
         user: state.user,
         authError: state.authError,
         register,
+        loadUser,
         login,
         persistUser,
         logout,

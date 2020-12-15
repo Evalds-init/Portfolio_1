@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema({
     default: 'user',
   },
   tel: {
-    type: Number,
+    type: String,
   },
   history: {
     type: [String],
@@ -45,6 +45,7 @@ const UserSchema = new mongoose.Schema({
     type: [
       {
         _id: { type: ObjectId, auto: true },
+        name: { type: String },
         line1: { type: String },
         line2: { type: String },
         city: { type: String },

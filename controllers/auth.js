@@ -10,7 +10,6 @@ const crypto = require('crypto');
 //@access Public
 
 exports.register = asyncResolver(async (req, res, next) => {
-  console.log(req.body);
   let user = await User.create(req.body);
   let basket = new Basket();
   user.basketId = basket._id;
@@ -19,7 +18,6 @@ exports.register = asyncResolver(async (req, res, next) => {
   await basket.save();
   //Create JWT token and send it in cookies
   let temp = process.env.TEMPORARY_COKIE_EXPIRE * 60 * 1000;
-  console.log(temp);
   sendTokenInCookie(user, 200, res, temp);
 });
 
@@ -41,7 +39,8 @@ exports.login = asyncResolver(async (req, res, next) => {
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
-  let expiryDate = 30 * 60 * 100;
+  // Cookies expire in 30 minutes
+  let expiryDate = 30 * 60 * 1000;
   //Create JWT token and send it in cookies
   sendTokenInCookie(user, 200, res, expiryDate);
 });
@@ -63,8 +62,18 @@ exports.persistUser = asyncResolver(async (req, res, next) => {
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
+  // Cookies expire in 365 days
   let expiryDate = 365 * 24 * 60 * 60 * 100;
   sendTokenInCookie(user, 200, res, expiryDate);
+});
+//@desc Load User (if cookies persisted)
+//@route POST /api/v1/auth/loaduser
+//@access Public
+
+exports.loadUser = asyncResolver(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({ success: true, data: user });
 });
 
 //Get token , create cookie
@@ -72,14 +81,16 @@ const sendTokenInCookie = (user, statusCode, res, time) => {
   const token = user.getSignedJwtToken();
   const options = {
     expires: new Date(Date.now() + time),
-    httpOnly: false,
+    httpOnly: true,
   };
-  if (process.env.NODE_ENV === 'production') {
-    options.secure = true;
-  }
+
   res
     .status(statusCode)
     .cookie('token', token, options)
+    .cookie('cookieCheck', 'cookieExists', {
+      httpOnly: false,
+      expires: new Date(Date.now() + time),
+    })
     .json({ success: true, data: user });
 };
 

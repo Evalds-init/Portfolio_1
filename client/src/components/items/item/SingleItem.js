@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useContext } from 'react';
-import Search from '../../selector/Search';
 import ProductContext from '../../../context/products/productContext';
 import M from 'materialize-css';
 import ItemCard from './ItemCard';
@@ -11,7 +10,7 @@ function SingleItem({ match }) {
   const { product, loading, removeProduct } = productContext;
   let url = '#one!';
   useEffect(() => {
-    const options = { numVisible: 5 };
+    const options = { numVisible: 3, dist: -100 };
     var elems = document.querySelectorAll('.carousel');
     M.Carousel.init(elems, options);
   }, []);
@@ -19,11 +18,13 @@ function SingleItem({ match }) {
     if (product.length === 0) {
       history.push('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     return () => {
       removeProduct();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -33,7 +34,6 @@ function SingleItem({ match }) {
         <Preloader />
       ) : (
         <div className="container">
-          <Search />
           <div className="row">
             <div className="col m12 s12 l12">
               <div className="carousel">
@@ -45,7 +45,7 @@ function SingleItem({ match }) {
                       onClick={(e) => e.preventDefault}
                       key={index}
                     >
-                      <img src={item} />
+                      <img src={item} alt="product" />
                     </a>
                   ))
                 ) : (

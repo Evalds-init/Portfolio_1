@@ -14,6 +14,7 @@ function Account() {
     if (!isAuthenticated) {
       history.push('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
   useEffect(() => {
     var el = document.querySelector('.tabs');
@@ -21,13 +22,12 @@ function Account() {
   }, []);
   const [tab, setTab] = useState('');
 
-  let url = ' ';
   const onClick = (e) => {
     setTab('');
     setTab(e.target.name);
   };
   return (
-    <div className="z-depth-1 grey lighten-3">
+    <div>
       <div className="row">
         <div className="col s12 m12 l12">
           <div className="card">

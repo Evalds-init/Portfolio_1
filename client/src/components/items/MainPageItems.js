@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, Fragment } from 'react';
+import React, { useEffect, useContext } from 'react';
 import MainPageItemList from './MainPageItemList';
 import Options from '../selector/Options';
 import Pagination from '../utils/Pagination';
@@ -8,7 +8,7 @@ import ProductContext from '../../context/products/productContext';
 import Search from '../selector/Search';
 import Preloader from '../preloader/Preloader';
 import AdminContext from '../../context/admin/adminContext';
-function MainPageItems({}) {
+function MainPageItems() {
   const adminContext = useContext(AdminContext);
   const { adminError, createdProduct } = adminContext;
   const authContext = useContext(AuthContext);
@@ -28,12 +28,14 @@ function MainPageItems({}) {
     if (isAuthenticated) {
       getBasketItems();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (!adminError && createdProduct) {
       getProducts();
     }
-  }, [createdProduct]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdProduct, adminError]);
 
   return (
     <div className="z-depth-1 main-page-items">
@@ -52,7 +54,7 @@ function MainPageItems({}) {
               <MainPageItemList item={item} key={index} />
             ))
           ) : (
-            products.length !== 0 &&
+            products?.length !== 0 &&
             products.map((item, index) => (
               <MainPageItemList item={item} key={index} />
             ))

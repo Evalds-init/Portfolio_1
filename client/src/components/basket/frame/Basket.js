@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import AuthContext from '../../../context/auth/authContext';
+import React, { useContext, useState } from 'react';
 import BasketContext from '../../../context/basket/basketContext';
-import CheckOut from './CheckOut';
+import BasketBackground from './BasketBackground';
 import Checkout from '../payment/Checkout';
 function Basket() {
   const basketContext = useContext(BasketContext);
   const { basket } = basketContext;
-  const authContext = useContext(AuthContext);
-  const { user } = authContext;
+
 
   const [display, setDisplay] = useState({
     showForm: false,
@@ -32,7 +30,7 @@ function Basket() {
     <div className="z-depth-1 checkout">
       <div className="row">
         <div className="col s12 m12 l12" style={style}>
-          <CheckOut basket={basket} onClick={onClick} />
+          <BasketBackground basket={basket} onClick={onClick} />
         </div>
       </div>
       <div className="checkout-form">

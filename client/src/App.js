@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
+import Navbar from './components/navigation/Navbar';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import MainPageItems from './components/items/MainPageItems';
@@ -16,8 +16,9 @@ import AlertState from './context/alert/AlertState';
 import BasketState from './context/basket/BasketState';
 import AddMerchandise from './components/admin/AddMerchandise';
 import Checkout from './components/basket/payment/Checkout';
-import Canceled from './components/basket/payment/Canceled';
 import OrderState from './context/orders/OrderState';
+import About from './components/about/About';
+
 import './css/style.comp.css';
 function App() {
   return (
@@ -34,13 +35,10 @@ function App() {
 
                     <Switch>
                       <Route exact path="/" component={MainPageItems} />
+                      <Route exact path="/about" component={About} />
                       <Route exact path="/basket" component={Basket} />
                       <Route exact path="/checkout" component={Checkout} />
-                      <Route
-                        exact
-                        path="/checkout/canceled"
-                        component={Canceled}
-                      />
+
                       <Route exact path="/orders" component={Orders} />
                       <Route exact path="/register" component={Register} />
 

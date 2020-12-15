@@ -8,11 +8,7 @@ function BasketItem({ basket }) {
   const productContext = useContext(ProductContext);
   const alertContext = useContext(AlertContext);
   const basketContext = useContext(BasketContext);
-  const {
-    deleteBasketItem,
-    getBasketTotal,
-    changeItemQuantity,
-  } = basketContext;
+  const { deleteBasketItem, changeItemQuantity } = basketContext;
   const { setAlert } = alertContext;
   const [quantity, setQuantity] = useState(1);
   useEffect(() => {
@@ -25,15 +21,15 @@ function BasketItem({ basket }) {
       );
     }
     changeItemQuantity(basket._id, quantity);
-    getBasketTotal(basket._id, quantity);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quantity]);
+
   const decreaseQuantity = () => {
     setQuantity(quantity - 1);
   };
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
   };
-  let url = '';
 
   const deleteItem = (e) => {
     e.preventDefault();
@@ -44,12 +40,13 @@ function BasketItem({ basket }) {
   };
   return (
     <div className="row">
-      <div className="col m8 l8 s10 offset-l2 offset-m2 offset-s1">
+      <div className="col m10 l8 s10 offset-l2 offset-m1 offset-s1">
         <div className="card horizontal-custom-item-card">
           <div className="card-image-item-card">
             <img
               src={basket.photo?.[0]}
               className="img-custom-item-card basket"
+              alt="product"
             />
           </div>{' '}
           <div className="custom-item-card-container basket">
@@ -63,7 +60,7 @@ function BasketItem({ basket }) {
                   <p className="custom-item-card-ellipsis basket">
                     {basket.description}
                   </p>{' '}
-                  <div className="basket-total-price">
+                  <div className="basket-total-price hide-on-small-only">
                     Item total: £ {basket.price * quantity}
                   </div>
                 </div>

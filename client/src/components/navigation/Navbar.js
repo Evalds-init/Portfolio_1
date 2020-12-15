@@ -4,28 +4,47 @@ import AuthContext from '../../context/auth/authContext';
 import M from 'materialize-css';
 function Navbar() {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, user, logout } = authContext;
+  const { isAuthenticated, user, logout, loadUser } = authContext;
 
   useEffect(() => {
     var elems = document.querySelectorAll('.sidenav');
     M.Sidenav.init(elems, {});
   }, []);
+  useEffect(() => {
+    let cookies = document.cookie
+      .split(',')
+      .includes('cookieCheck=cookieExists');
+    if (cookies) {
+      loadUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   let url = ' ';
   const authLinks = (
     <Fragment>
-      <li>Hello {user && user.name}</li>
       <li>
-        <Link to="/account">Account</Link>
+        <Link to="/account" className="sidenav-close">
+          Account
+        </Link>
       </li>
       <li>
-        <Link to="/orders">Orders</Link>
+        <Link to="/orders" className="sidenav-close">
+          Orders
+        </Link>
       </li>
       <li>
-        <Link to="/basket">Basket</Link>
+        <Link to="/basket" className="sidenav-close">
+          Basket
+        </Link>
       </li>{' '}
       <li>
-        <Link to="/" onClick={() => logout()}>
+        <Link to="/" onClick={() => logout()} className="sidenav-close">
           Logout
+        </Link>
+      </li>
+      <li>
+        <Link to="/about" className="sidenav-close">
+          About
         </Link>
       </li>
     </Fragment>
@@ -41,10 +60,29 @@ function Navbar() {
   const guestLinks = (
     <Fragment>
       <li>
-        <Link to="/register">Register</Link>
+        <Link to="/orders" className="sidenav-close">
+          Orders
+        </Link>
       </li>
       <li>
-        <Link to="/login">Login</Link>
+        <Link to="/basket" className="sidenav-close">
+          Basket
+        </Link>
+      </li>{' '}
+      <li>
+        <Link to="/register" className="sidenav-close">
+          Register
+        </Link>
+      </li>
+      <li>
+        <Link to="/login" className="sidenav-close">
+          Login
+        </Link>
+      </li>
+      <li>
+        <Link to="/about" className="sidenav-close">
+          About
+        </Link>
       </li>
     </Fragment>
   );

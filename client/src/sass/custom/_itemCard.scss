@@ -6,6 +6,11 @@
   font-size: 0.8rem;
   border: 1px solid white;
   border-radius: 3px;
+  @media only screen and (max-width: 600px) {
+   
+      height: 11rem;
+    
+  }
 
   .card-image-item-card {
     display: flex;
@@ -16,6 +21,7 @@
     min-width: 10rem;
     padding: 15px;
     background-color: rgb(255, 255, 255);
+
 
     .img-custom-item-card {
       border-radius: 2px 0 0 2px;
@@ -49,7 +55,6 @@
         bottom: -40px;
         right: 10px;
         font-weight: 700;
-        
       }
     }
 

@@ -6,7 +6,7 @@ function PaymentCards() {
         {' '}
         <div className="row">
           <div className="col s12 m12">
-            <div className="card-panel grey lighten-3">
+            <div className="card-panel black-text">
               <span className="black-text">
                 <table>
                   <thead>

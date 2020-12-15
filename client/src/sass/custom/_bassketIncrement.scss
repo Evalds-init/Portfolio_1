@@ -1,8 +1,7 @@
 .basket-increment {
   display: flex;
-
-  height: 2rem;
-  width: 5rem;
+  max-height: 2rem;
+  max-width: 5rem;
   & input {
     width: 1rem;
     padding: 0 12px;

@@ -8,7 +8,7 @@ function DisplayDetails() {
   return (
     <div className="row">
       <div className="col s12 m12">
-        <div className="card-panel grey lighten-3">
+        <div className="card-panel">
           <span className="black-text">
             <table>
               <thead>

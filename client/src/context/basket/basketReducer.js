@@ -39,10 +39,12 @@ export default (state, action) => {
     case GET_BASKET_TOTAL:
       return {
         ...state,
-        total: state.basket.reduce(
-          (acc, value) => acc + value.price * value.purchaseQuantity,
-          0
-        ),
+        total: state.basket
+          ? state.basket.reduce(
+              (acc, value) => acc + value.price * value.purchaseQuantity,
+              0
+            )
+          : 0,
       };
     //// Errors
     case PAYMENT_ERROR:
